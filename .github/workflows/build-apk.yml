@@ -1,12 +1,14 @@
-name: Build Android APK
+name: Build BoardMate APKs (Manager & Tenant)
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, '**' ]
+  pull_request:
   workflow_dispatch:
 
 jobs:
   build:
+    name: Build Manager and Tenant APKs
     runs-on: ubuntu-latest
 
     steps:
@@ -26,14 +28,28 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Get dependencies
+      - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Build APK (Release)
-        run: flutter build apk --release --split-per-abi
+      - name: Build BoardMate Manager APK
+        run: flutter build apk --flavor manager -t lib/main_manager.dart --release
 
-      - name: Upload APK Artifact
+      - name: Build BoardMate Tenant APK
+        run: flutter build apk --flavor tenant -t lib/main_tenant.dart --release
+
+      - name: Organize APK outputs
+        run: |
+          mkdir -p release-apks
+          find build/app/outputs -name "*manager*release*.apk" -exec cp {} release-apks/BoardMate-Manager-v1.0.apk \; || true
+          find build/app/outputs -name "*tenant*release*.apk" -exec cp {} release-apks/BoardMate-Tenant-v1.0.apk \; || true
+          # Catch-all copy if flavors put them in another subfolder
+          find build/app/outputs/flutter-apk -name "*.apk" -exec cp -u {} release-apks/ \; 2>/dev/null || true
+          echo "Found APK files:"
+          ls -la release-apks/
+
+      - name: Upload Manager & Tenant APKs
         uses: actions/upload-artifact@v4
         with:
-          name: boardmate-android-apk
-          path: build/app/outputs/flutter-apk/*.apk
+          name: boardmate-release-apks
+          path: release-apks/*.apk
+          if-no-files-found: warn

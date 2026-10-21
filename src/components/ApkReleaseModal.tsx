@@ -157,21 +157,33 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
             <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-2xl p-4 flex items-start gap-3">
               <div className="text-xl">☁️</div>
               <div>
-                <h4 className="font-bold text-[#1E40AF] text-sm">Automated Cloud APK Compiler (.github/workflows/build-apk.yml)</h4>
+                <h4 className="font-bold text-[#1E40AF] text-sm">Automated Cloud Dual-APK Compiler (.github/workflows/build-apk.yml)</h4>
                 <p className="text-xs text-[#1D4ED8] mt-1 leading-relaxed">
-                  Because cloud sandbox containers do not include the 2GB+ Android Gradle/NDK toolchain, we have created the complete <strong>GitHub Actions APK Workflow</strong> in your workspace!
+                  We have configured the CI workflow to automatically build and package <strong>two distinct APKs</strong> in one run:
                 </p>
+                <div className="mt-2.5 space-y-1.5 text-xs">
+                  <div className="flex items-center gap-2 font-bold text-[#0F172A]">
+                    <span className="w-2 h-2 rounded-full bg-teal-600"></span>
+                    <span>BoardMate-Manager.apk</span>
+                    <span className="text-[10px] bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full font-normal">Host Server + Financials</span>
+                  </div>
+                  <div className="flex items-center gap-2 font-bold text-[#0F172A]">
+                    <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
+                    <span>BoardMate-Tenant.apk</span>
+                    <span className="text-[10px] bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full font-normal">Client + QR Camera Scan</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="space-y-3">
-              <h5 className="font-bold text-xs uppercase text-[#64748B] tracking-wider">How to get your .apk in 2 minutes:</h5>
+              <h5 className="font-bold text-xs uppercase text-[#64748B] tracking-wider">How to get both APKs in 2 minutes:</h5>
               <ol className="space-y-2 text-xs text-[#334155] list-decimal list-inside leading-relaxed bg-[#F8FAFC] p-4 rounded-xl border border-[#E2E8F0]">
                 <li>Push this repository to a free GitHub repository (private or public).</li>
                 <li>Go to the <strong>"Actions"</strong> tab on GitHub.</li>
-                <li>Click <strong>"Build Android APK"</strong> &gt; <strong>"Run workflow"</strong>.</li>
-                <li>GitHub compiles the Flutter release build for free and outputs <strong>boardmate-android-apk.zip</strong> containing the signed <code>app-release.apk</code>!</li>
-                <li>Transfer the <code>.apk</code> to your Android phone and tap to install.</li>
+                <li>Click <strong>"Build BoardMate APKs"</strong> &gt; <strong>"Run workflow"</strong>.</li>
+                <li>GitHub compiles both flavors and outputs <strong>boardmate-release-apks.zip</strong> containing both <code>BoardMate-Manager.apk</code> and <code>BoardMate-Tenant.apk</code>!</li>
+                <li>Install <code>BoardMate-Manager.apk</code> on your phone, and send <code>BoardMate-Tenant.apk</code> to your 6 tenants.</li>
               </ol>
             </div>
           </div>
@@ -181,22 +193,43 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
         {activeTab === 'local' && (
           <div className="p-6 space-y-4">
             <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4">
-              <h4 className="font-bold text-[#0F172A] text-sm mb-2">Build APK with Flutter SDK</h4>
+              <h4 className="font-bold text-[#0F172A] text-sm mb-2">Build Both APKs with Flutter SDK</h4>
               <p className="text-xs text-[#64748B] mb-3">
-                If you have Flutter installed on your PC/Mac or laptop, run this single command from the project root:
+                Run these two commands from your project root to generate both role-specific APKs:
               </p>
-              <div className="bg-[#0F172A] text-emerald-400 p-3 rounded-xl font-mono text-xs flex items-center justify-between">
-                <span>{cliCommand}</span>
-                <button
-                  onClick={() => copyToClipboard(cliCommand, 'cli')}
-                  className="text-slate-400 hover:text-white"
-                >
-                  {copiedText === 'cli' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                </button>
+              
+              <div className="space-y-2.5">
+                <div>
+                  <div className="text-[11px] font-bold text-[#0D9488] mb-1">1. Build Manager APK:</div>
+                  <div className="bg-[#0F172A] text-emerald-400 p-2.5 rounded-xl font-mono text-[11px] flex items-center justify-between">
+                    <span className="truncate">flutter build apk --flavor manager -t lib/main_manager.dart --release</span>
+                    <button
+                      onClick={() => copyToClipboard('flutter build apk --flavor manager -t lib/main_manager.dart --release', 'cli-m')}
+                      className="ml-2 text-slate-400 hover:text-white shrink-0"
+                    >
+                      {copiedText === 'cli-m' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[11px] font-bold text-indigo-600 mb-1">2. Build Tenant APK:</div>
+                  <div className="bg-[#0F172A] text-indigo-300 p-2.5 rounded-xl font-mono text-[11px] flex items-center justify-between">
+                    <span className="truncate">flutter build apk --flavor tenant -t lib/main_tenant.dart --release</span>
+                    <button
+                      onClick={() => copyToClipboard('flutter build apk --flavor tenant -t lib/main_tenant.dart --release', 'cli-t')}
+                      className="ml-2 text-slate-400 hover:text-white shrink-0"
+                    >
+                      {copiedText === 'cli-t' ? <Check className="w-3.5 h-3.5 text-indigo-300" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <p className="text-[11px] text-[#64748B] mt-2">
-                Output file created: <code>build/app/outputs/flutter-apk/app-release.apk</code>
-              </p>
+
+              <div className="text-[11px] text-[#64748B] mt-3 space-y-1">
+                <div>Output 1: <code>build/app/outputs/flutter-apk/app-manager-release.apk</code></div>
+                <div>Output 2: <code>build/app/outputs/flutter-apk/app-tenant-release.apk</code></div>
+              </div>
             </div>
 
             <div className="bg-[#FFFBEB] border border-[#FDE68A] rounded-xl p-3 text-xs text-[#92400E]">
