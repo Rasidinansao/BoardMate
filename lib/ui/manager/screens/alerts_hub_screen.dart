@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/theme/app_theme.dart';
 
 class AlertsHubScreen extends StatefulWidget {
   const AlertsHubScreen({super.key});
@@ -7,254 +8,270 @@ class AlertsHubScreen extends StatefulWidget {
   State<AlertsHubScreen> createState() => _AlertsHubScreenState();
 }
 
-class _AlertsHubScreenState extends State<AlertsHubScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  final List<Map<String, dynamic>> _reports = [
+class _AlertsHubScreenState extends State<AlertsHubScreen> {
+  final List<Map<String, dynamic>> _incomingReports = [
     {
       'id': 'rep-1',
-      'tenant': 'Mateo Santos',
-      'room': 'Room 101',
-      'category': 'Water / Plumbing',
-      'description': 'Bathroom faucet is leaking continuously. Need repair.',
-      'status': 'Pending',
-      'time': '10:30 AM',
-      'hasPhoto': true,
+      'emoji': '🔊',
+      'title': 'Too noisy · Room B',
+      'subtitle': '10 min ago · 10:32 PM · inside quiet hours',
+      'sender': '🔒 From Joy (only you can see this)',
+      'status': 'New',
     },
     {
       'id': 'rep-2',
-      'tenant': 'Carlo Reyes',
-      'room': 'Room 102',
-      'category': 'Electrical',
-      'description': 'Main fluorescent light tube is flickering.',
-      'status': 'Pending',
-      'time': 'Yesterday',
-      'hasPhoto': false,
+      'emoji': '🧹',
+      'title': 'Needs cleaning · Kitchen',
+      'subtitle': 'Yesterday 4:10 PM · from Mark',
+      'sender': 'Mark Villanueva',
+      'status': 'Handled',
+    },
+    {
+      'id': 'rep-3',
+      'emoji': '⚡',
+      'title': 'Brownout on my side',
+      'subtitle': 'Oct 18, 2:05 PM · from Angel',
+      'sender': 'Angel Bautista',
+      'status': 'Handled',
     },
   ];
 
-  final TextEditingController _broadcastController = TextEditingController(
-    text: 'Water supply will be temporarily shut off today from 2 PM to 4 PM for tank maintenance.',
-  );
-  String _selectedBroadcastRoom = 'All Rooms (6 Tenants)';
+  final List<Map<String, String>> _managerAlertTiles = [
+    {'em': '🤫', 'label': 'Keep it down', 'target': 'Room B', 'msg': 'Hi Room B 🙂 gentle reminder: quiet hours started at 10 PM. Thank you!'},
+    {'em': '📦', 'label': 'Parcel for you', 'target': 'Joy', 'msg': 'Hi Joy! You have a parcel 📦 waiting at the front.'},
+    {'em': '💧', 'label': 'Water interruption', 'target': 'Everyone', 'msg': 'Scheduled water interruption tomorrow 8 AM–5 PM. Please store water 💧'},
+    {'em': '🗑️', 'label': 'Garbage day', 'target': 'Everyone', 'msg': 'Garbage collection tomorrow morning. Please bring your trash down tonight 🗑️'},
+    {'em': '💸', 'label': 'Rent reminder', 'target': 'Paolo', 'msg': 'Hi Paolo 🙂 friendly reminder: your rent was due on Oct 15.'},
+    {'em': '⚡', 'label': 'Brownout notice', 'target': 'Everyone', 'msg': 'Scheduled brownout on Saturday 9 AM–3 PM ⚡ Please charge your devices.'},
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
+  void _sendReminder(String emoji, String title, String target, String defaultMsg) {
+    final controller = TextEditingController(text: defaultMsg);
 
-  void _resolveReport(int index, String resolution) {
-    setState(() {
-      _reports[index]['status'] = resolution;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Report marked as $resolution!'),
-        backgroundColor: resolution == 'Done' ? const Color(0xFF0D9488) : const Color(0xFF64748B),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(26))),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('$emoji $title', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            Text('Send to: $target', style: const TextStyle(fontSize: 12, color: AppTheme.muted, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              maxLines: 3,
+              decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Message (editable)'),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('✓ Sent to $target! Delivered over house WiFi.')),
+                  );
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primary),
+                child: const Text('Send Alert', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  void _broadcastNotice() {
-    final text = _broadcastController.text.trim();
-    if (text.isEmpty) return;
-
+  void _dismissReport(int index) {
+    setState(() {
+      _incomingReports[index]['status'] = 'Dismissed';
+    });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Notice broadcasted to $_selectedBroadcastRoom!'),
-        backgroundColor: const Color(0xFF0D9488),
-      ),
+      const SnackBar(content: Text('Report dismissed')),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        title: const Text('Alert Resolution & Notices'),
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: const Color(0xFF0D9488),
-          unselectedLabelColor: const Color(0xFF64748B),
-          indicatorColor: const Color(0xFF0D9488),
-          tabs: const [
-            Tab(text: 'Incoming Reports'),
-            Tab(text: 'Broadcast Notice'),
-          ],
-        ),
+        title: const Text('Quick Alerts'),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          // Tab 1: Tenant Reports
-          _buildReportsList(),
-
-          // Tab 2: Broadcast Notice
-          _buildBroadcastForm(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildReportsList() {
-    final activeReports = _reports.where((r) => r['status'] == 'Pending').toList();
-
-    if (activeReports.isEmpty) {
-      return Center(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.check_circle_outline, size: 64, color: Color(0xFF0D9488)),
+            // Section 1: From tenants
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                'FROM TENANTS',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: AppTheme.muted, letterSpacing: 0.5),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            ..._incomingReports.asMap().entries.map((entry) {
+              final idx = entry.key;
+              final r = entry.value;
+              final isNew = r['status'] == 'New';
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: isNew ? AppTheme.overdueSoft : AppTheme.line, width: isNew ? 2 : 1),
+                  boxShadow: const [
+                    BoxShadow(color: Color.fromRGBO(48, 62, 140, 0.08), blurRadius: 18, offset: Offset(0, 4)),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(r['emoji'] as String, style: const TextStyle(fontSize: 28)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(r['title'] as String, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15, color: AppTheme.text)),
+                              const SizedBox(height: 2),
+                              Text(r['subtitle'] as String, style: const TextStyle(color: AppTheme.muted, fontSize: 12)),
+                              if (isNew) ...[
+                                const SizedBox(height: 4),
+                                Text(r['sender'] as String, style: const TextStyle(fontSize: 11, color: AppTheme.text, fontWeight: FontWeight.w600)),
+                              ],
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: isNew ? AppTheme.overdueSoft : AppTheme.paidSoft,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            r['status'] as String,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              color: isNew ? AppTheme.overdue : AppTheme.paid,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (isNew) ...[
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () => _sendReminder(
+                                '🤫',
+                                'Please keep it down',
+                                'Room B',
+                                'Hi Room B 🙂 gentle reminder: quiet hours started at 10 PM. Thank you!',
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.primary,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              ),
+                              icon: const Text('🤫', style: TextStyle(fontSize: 14)),
+                              label: const Text('Send reminder', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          OutlinedButton(
+                            onPressed: () => _dismissReport(idx),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: const Text('Dismiss', style: TextStyle(color: AppTheme.muted, fontSize: 12, fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            }),
+
+            const SizedBox(height: 18),
+
+            // Section 2: Send to tenants
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                'SEND TO TENANTS',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: AppTheme.muted, letterSpacing: 0.5),
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            // 3-column tiles (Exact as Step 2)
+            GridView.count(
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 0.95,
+              children: _managerAlertTiles.map((tile) {
+                return InkWell(
+                  onTap: () => _sendReminder(tile['em']!, tile['label']!, tile['target']!, tile['msg']!),
+                  borderRadius: BorderRadius.circular(18),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: AppTheme.line),
+                      boxShadow: const [
+                        BoxShadow(color: Color.fromRGBO(48, 62, 140, 0.08), blurRadius: 18, offset: Offset(0, 4)),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(tile['em']!, style: const TextStyle(fontSize: 28)),
+                        const SizedBox(height: 6),
+                        Text(
+                          tile['label']!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: AppTheme.text),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
             const SizedBox(height: 12),
-            const Text('All Clear!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF0F172A))),
-            const SizedBox(height: 4),
-            const Text('No pending tenant maintenance issues.', style: TextStyle(color: Color(0xFF64748B), fontSize: 13)),
+            const Text(
+              'Templates are editable in Settings › Quick Alerts.',
+              style: TextStyle(fontSize: 11.5, color: AppTheme.muted),
+            ),
           ],
         ),
-      );
-    }
-
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: _reports.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final rep = _reports[index];
-        final isPending = rep['status'] == 'Pending';
-
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFEF3C7),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      rep['category'] as String,
-                      style: const TextStyle(color: Color(0xFFB45309), fontSize: 11, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Text(rep['time'] as String, style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${rep['tenant']} (${rep['room']})',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF0F172A)),
-              ),
-              const SizedBox(height: 4),
-              Text(rep['description'] as String, style: const TextStyle(fontSize: 13, color: Color(0xFF334155))),
-              const SizedBox(height: 12),
-              if (isPending)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    OutlinedButton.icon(
-                      onPressed: () => _resolveReport(index, 'Dismissed'),
-                      icon: const Icon(Icons.close, size: 14, color: Color(0xFF64748B)),
-                      label: const Text('Dismiss', style: TextStyle(color: Color(0xFF64748B))),
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton.icon(
-                      onPressed: () => _resolveReport(index, 'Done'),
-                      icon: const Icon(Icons.check, size: 14, color: Colors.white),
-                      label: const Text('Mark Done', style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0D9488),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                    ),
-                  ],
-                )
-              else
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: rep['status'] == 'Done' ? const Color(0xFFECFDF5) : const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Status: ${rep['status']}',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: rep['status'] == 'Done' ? const Color(0xFF047857) : const Color(0xFF64748B),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildBroadcastForm() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Send House Notice to Tenants', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          const Text('Delivered instantly over local house WiFi.', style: TextStyle(color: Color(0xFF64748B), fontSize: 12)),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            value: _selectedBroadcastRoom,
-            decoration: const InputDecoration(
-              labelText: 'Target Recipients',
-              border: OutlineInputBorder(),
-            ),
-            items: const [
-              DropdownMenuItem(value: 'All Rooms (6 Tenants)', child: Text('All Rooms (6 Tenants)')),
-              DropdownMenuItem(value: 'Room 101', child: Text('Room 101')),
-              DropdownMenuItem(value: 'Room 102', child: Text('Room 102')),
-              DropdownMenuItem(value: 'Room 103', child: Text('Room 103')),
-            ],
-            onChanged: (val) => setState(() => _selectedBroadcastRoom = val!),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _broadcastController,
-            maxLines: 4,
-            decoration: const InputDecoration(
-              labelText: 'Notice Content',
-              hintText: 'Enter notice message...',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: ElevatedButton.icon(
-              onPressed: _broadcastNotice,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0D9488),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              icon: const Icon(Icons.campaign, color: Colors.white),
-              label: const Text('Broadcast Notice to Tenants', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
-          ),
-        ],
       ),
     );
   }

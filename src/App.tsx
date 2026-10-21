@@ -472,7 +472,7 @@ export default function App() {
 
             <button
               onClick={() => setIsApkModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#0D9488] hover:bg-[#0F766E] text-white shadow-xs transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#4F6BED] hover:bg-[#3550C8] text-white shadow-xs transition-colors"
               title="Release & Install APK on Android"
             >
               <span>📦</span>

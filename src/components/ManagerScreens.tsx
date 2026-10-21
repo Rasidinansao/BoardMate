@@ -268,274 +268,239 @@ export const ManagerScreens: React.FC<ManagerScreensProps> = ({
     );
   }
 
-  // ==================== 2. DASHBOARD (LIGHT THEME) ====================
+  // ==================== 2. DASHBOARD (STEP 2 LIGHT THEME MOCKUP) ====================
   if (currentScreen === 'm-dash') {
-    return (
-      <div className="p-4 space-y-3.5 pb-12">
-        {/* Top Header Card */}
-        <div className="bg-white border border-[#E6E9F5] rounded-[24px] p-5 shadow-[0_4px_18px_rgba(48,62,140,0.06)] relative">
-          <div className="flex justify-between items-start">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#6B7194] uppercase tracking-wider">Host Phone Server</span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E3F6EC] text-[#21A366] text-[10.5px] font-bold border border-[#C3EED7]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#21A366] animate-pulse" />
-                  ONLINE
-                </span>
-              </div>
-              <div className="flex items-center gap-2 mt-1">
-                <h1 className="text-xl font-extrabold text-[#1F2544]">{settings.managerName}</h1>
-                <button
-                  onClick={() => setShowEditNameSheet(true)}
-                  className="p-1 rounded-lg bg-[#F5F7FF] hover:bg-[#E8ECFF] text-[#4F6BED] transition-colors"
-                  title="Edit Manager Name"
-                >
-                  <Edit3 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-              <p className="text-xs text-[#6B7194]">{settings.houseName} · 3 Rooms, 6 Beds</p>
-            </div>
-            <button
-              onClick={() => onNavigate('m-settings')}
-              className="w-10 h-10 rounded-2xl bg-[#F5F7FF] hover:bg-[#E8ECFF] text-[#6B7194] hover:text-[#4F6BED] flex items-center justify-center transition-colors border border-[#E6E9F5]"
-              aria-label="Settings"
-            >
-              <Settings className="w-4 h-4" />
-            </button>
-          </div>
+    const avatarColors = ["#4F6BED", "#F08A5D", "#2BB3A3", "#B66DFF", "#E85D9C", "#E3A008"];
 
-          <div className="mt-3.5 pt-3 border-t border-[#E6E9F5] flex items-center justify-between text-[11px] text-[#6B7194] font-mono">
-            <span>IP: {settings.hostIp}:8080</span>
-            <span>WiFi: {settings.houseSsid}</span>
+    return (
+      <div className="p-4 space-y-3 pb-14 text-[#1F2544]">
+        {/* Appbar */}
+        <div className="flex items-center justify-between pb-1">
+          <div>
+            <div className="text-xs text-[#6B7194]">Good evening 🌙</div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-extrabold text-[#1F2544] tracking-tight">{settings.managerName}</h2>
+              <button
+                onClick={() => setShowEditNameSheet(true)}
+                className="p-1 rounded-lg text-[#6B7194] hover:text-[#4F6BED] hover:bg-[#E8ECFF] transition-colors"
+                title="Edit name"
+              >
+                <Edit3 className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+          <button 
+            onClick={() => onNavigate('m-alerts')}
+            className="w-11 h-11 rounded-[14px] bg-white border border-[#E6E9F5] shadow-[0_4px_18px_rgba(48,62,140,0.08)] flex items-center justify-center text-xl cursor-pointer relative hover:bg-[#F5F7FF] transition-colors"
+          >
+            🔔
+            {pendingReportsCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#E5484D] text-white text-[10px] font-extrabold rounded-full px-1.5 py-0.2 shadow-xs">
+                {pendingReportsCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Backup Warning Banner */}
+        <div className="rounded-[16px] p-3.5 bg-[#FFF3DA] text-[#7A5200] border border-[#FFE2A4] text-xs flex items-start gap-2.5">
+          <span className="text-base shrink-0">💾</span>
+          <div className="flex-1 leading-relaxed">
+            <strong>Last backup was 9 days ago.</strong><br />
+            Protect your data in 1 tap.{' '}
+            <button 
+              onClick={() => onNavigate('m-settings')} 
+              className="font-extrabold text-[#3550C8] hover:underline cursor-pointer inline-flex items-center"
+            >
+              Back up now →
+            </button>
           </div>
         </div>
 
-        {/* Needs Attention Cards */}
-        {(pendingReportsCount > 0 || pendingPayments.length > 0 || overdueTenantsCount > 0) && (
-          <div className="space-y-2">
-            <h2 className="text-xs font-bold text-[#6B7194] uppercase tracking-wider px-1">
-              Needs Attention ({pendingReportsCount + pendingPayments.length + overdueTenantsCount})
-            </h2>
-
-            {/* Incoming Tenant Alerts Banner */}
-            {pendingReportsCount > 0 && (
-              <div 
-                onClick={() => onNavigate('m-alerts')}
-                className="bg-[#FDE6E7] border border-[#FBC8C9] hover:border-[#E5484D] rounded-[20px] p-3.5 flex items-center justify-between cursor-pointer transition-all hover:scale-[1.01]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white text-[#E5484D] flex items-center justify-center text-lg shrink-0 shadow-xs">
-                    📢
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-[#1F2544] text-xs">
-                        {pendingReportsCount} Incoming Tenant {pendingReportsCount === 1 ? 'Report' : 'Reports'}
-                      </span>
-                      <span className="px-1.5 py-0.2 bg-[#E5484D] text-white font-extrabold text-[9px] rounded-full">NEW</span>
-                    </div>
-                    <p className="text-[11px] text-[#6B7194] line-clamp-1 mt-0.5">
-                      Noise or facility issues waiting for your review & action
-                    </p>
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-[#E5484D] shrink-0" />
+        {/* Host Running Card */}
+        <div className="bg-white rounded-[20px] p-4 shadow-[0_4px_18px_rgba(48,62,140,0.08)] border border-[#E6E9F5]">
+          <div className="flex items-center gap-3">
+            <div className="text-2xl shrink-0">🟢</div>
+            <div className="flex-1 min-w-0">
+              <div className="font-extrabold text-[#1F2544] text-[15px]">Host is running</div>
+              <div className="text-xs text-[#6B7194] truncate">
+                {settings.hostIp}:{settings.hostPort} · 5 of 6 tenants paired
               </div>
-            )}
-
-            {/* Unverified GCash/Maya Payments */}
-            {pendingPayments.length > 0 && (
-              <div 
-                onClick={() => onNavigate('m-pay')}
-                className="bg-[#FFF3DA] border border-[#FFE2A4] hover:border-[#E39B12] rounded-[20px] p-3.5 flex items-center justify-between cursor-pointer transition-all hover:scale-[1.01]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white text-[#E39B12] flex items-center justify-center text-lg shrink-0 shadow-xs">
-                    💳
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-[#1F2544] text-xs">
-                        {pendingPayments.length} Payment to Verify
-                      </span>
-                      <span className="px-1.5 py-0.2 bg-[#E39B12] text-white font-extrabold text-[9px] rounded-full">ACTION</span>
-                    </div>
-                    <p className="text-[11px] text-[#6B7194] line-clamp-1 mt-0.5">
-                      Joy Dela Cruz submitted GCash screenshot (₱2,500.00)
-                    </p>
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-[#E39B12] shrink-0" />
-              </div>
-            )}
-
-            {/* Overdue Rent Card */}
-            {overdueTenantsCount > 0 && (
-              <div 
-                onClick={() => onNavigate('m-billing')}
-                className="bg-white border border-[#E6E9F5] rounded-[20px] p-3.5 flex items-center justify-between cursor-pointer transition-all hover:scale-[1.01] shadow-xs"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#FFF3DA] text-[#E39B12] flex items-center justify-center text-lg shrink-0">
-                    ⏳
-                  </div>
-                  <div>
-                    <span className="font-bold text-[#1F2544] text-xs">Paolo Reyes: 5 Days Overdue</span>
-                    <p className="text-[11px] text-[#6B7194] mt-0.5">
-                      Drawing ₱83.33/day from deposit cushion (25 of 30 days remaining)
-                    </p>
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-[#6B7194] shrink-0" />
-              </div>
-            )}
+            </div>
+            <span className="inline-flex items-center gap-1 text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#E3F6EC] text-[#21A366]">
+              Online
+            </span>
           </div>
-        )}
+        </div>
 
-        {/* Monthly Settlement Snapshot Card */}
-        <div className="bg-white border border-[#E6E9F5] rounded-[24px] p-5 space-y-3 shadow-[0_4px_18px_rgba(48,62,140,0.06)]">
-          <div className="flex justify-between items-center">
+        {/* Rent Collection Card */}
+        <div className="bg-white rounded-[20px] p-4 shadow-[0_4px_18px_rgba(48,62,140,0.08)] border border-[#E6E9F5]">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-[11px] font-bold text-[#6B7194] uppercase tracking-wider">October 2026 Collection</p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="text-2xl font-extrabold text-[#1F2544] font-mono">{formatPHP(totalCollectedRent)}</span>
-                <span className="text-xs text-[#6B7194] font-mono">/ {formatPHP(totalPotentialRent)}</span>
+              <div className="text-xs text-[#6B7194]">October rent collected</div>
+              <div className="text-[28px] font-extrabold text-[#1F2544] tracking-tight mt-0.5 font-mono">
+                {formatPHP(totalCollectedRent)}
               </div>
+              <div className="text-xs text-[#6B7194]">of {formatPHP(totalPotentialRent)} expected</div>
             </div>
-            <div className="text-right">
-              <span className="text-xs font-extrabold text-[#21A366]">
-                {Math.round((totalCollectedRent / totalPotentialRent) * 100)}%
-              </span>
-              <p className="text-[10px] text-[#6B7194] font-semibold">{paidTenantsCount} of 6 Paid</p>
-            </div>
+            <div className="text-4xl">💰</div>
           </div>
 
           {/* Progress bar */}
-          <div className="w-full bg-[#EEF0F7] h-2.5 rounded-full overflow-hidden flex">
+          <div className="h-2.5 bg-[#EEF0F7] rounded-full overflow-hidden mt-3">
             <div 
-              className="bg-[#21A366] h-full transition-all duration-500" 
-              style={{ width: `${(paidTenantsCount / 6) * 100}%` }} 
+              className="h-full bg-[#21A366] rounded-full transition-all duration-500"
+              style={{ width: `${Math.min(100, Math.round((totalCollectedRent / totalPotentialRent) * 100))}%` }}
             />
-            {pendingPayments.length > 0 && (
-              <div 
-                className="bg-[#E39B12] h-full transition-all duration-500" 
-                style={{ width: `${(pendingPayments.length / 6) * 100}%` }} 
-              />
-            )}
-            {overdueTenantsCount > 0 && (
-              <div 
-                className="bg-[#E5484D] h-full transition-all duration-500" 
-                style={{ width: `${(overdueTenantsCount / 6) * 100}%` }} 
-              />
-            )}
           </div>
 
-          <div className="flex justify-between items-center text-[10.5px] text-[#6B7194] pt-1 font-semibold">
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-[#21A366]" />
-              {paidTenantsCount} Paid
+          {/* Status chips */}
+          <div className="flex flex-wrap items-center gap-2 mt-3 pt-0.5">
+            <span className="inline-flex items-center gap-1 text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#E3F6EC] text-[#21A366]">
+              ✓ {paidTenantsCount} Paid
             </span>
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-[#E39B12]" />
-              {pendingPayments.length} Pending
+            <span className="inline-flex items-center gap-1 text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#FFF3DA] text-[#E39B12]">
+              ⏳ {pendingPayments.length} Pending
             </span>
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-[#E5484D]" />
-              {overdueTenantsCount} Overdue
+            <span className="inline-flex items-center gap-1 text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#FDE6E7] text-[#E5484D]">
+              ! {overdueTenantsCount} Overdue
             </span>
-          </div>
-
-          <div className="pt-2 flex gap-2">
-            <button
-              onClick={() => onNavigate('m-billing')}
-              className="flex-1 py-2.5 px-3 rounded-xl bg-[#E8ECFF] hover:bg-[#DCE3FF] text-xs font-bold text-[#3550C8] transition-colors flex items-center justify-center gap-1.5"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              Monthly Details
-            </button>
-            <button
-              onClick={() => setShowCashSheet(true)}
-              className="flex-1 py-2.5 px-3 rounded-xl bg-[#4F6BED] hover:bg-[#3550C8] text-xs font-bold text-white shadow-sm transition-colors flex items-center justify-center gap-1.5"
-            >
-              <DollarSign className="w-3.5 h-3.5" />
-              Log Cash Pay
-            </button>
           </div>
         </div>
 
-        {/* Live WiFi Presence Summary */}
-        <div className="bg-white border border-[#E6E9F5] rounded-[24px] p-5 space-y-3 shadow-[0_4px_18px_rgba(48,62,140,0.06)]">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xs font-bold text-[#1F2544] uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#21A366] animate-pulse" />
-              WiFi Presence ({tenants.filter(t => t.isHome).length} of 6 Home)
-            </h3>
-            <span className="text-[10px] text-[#6B7194] font-semibold">SantosHouse_2.4G</span>
-          </div>
+        {/* Needs Attention Section */}
+        <div className="text-[12.5px] font-extrabold text-[#6B7194] uppercase tracking-wider px-1 pt-2">
+          Needs attention
+        </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            {tenants.map(t => {
-              const room = rooms.find(r => r.id === t.roomId);
-              return (
-                <div
-                  key={t.id}
-                  onClick={() => {
-                    onSelectTenant(t.id);
-                    onNavigate('m-tenant');
-                  }}
-                  className="bg-[#F5F7FF] border border-[#E6E9F5] hover:border-[#CDD7FF] rounded-2xl p-2.5 flex items-center gap-2.5 cursor-pointer transition-colors"
+        {/* Needs Attention: Noise report */}
+        <div 
+          onClick={() => onNavigate('m-alerts')}
+          className="bg-white rounded-[20px] p-4 shadow-[0_4px_18px_rgba(48,62,140,0.08)] border border-[#E6E9F5] cursor-pointer hover:border-[#4F6BED] transition-all active:scale-[0.99]"
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-2xl shrink-0">🔊</div>
+            <div className="flex-1 min-w-0">
+              <div className="font-extrabold text-[#1F2544] text-[15px]">Noise report · Room B</div>
+              <div className="text-xs text-[#6B7194]">10 min ago · inside quiet hours</div>
+            </div>
+            <span className="inline-flex items-center text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#FDE6E7] text-[#E5484D]">
+              New
+            </span>
+          </div>
+        </div>
+
+        {/* Needs Attention: Payment to verify */}
+        <div 
+          onClick={() => onNavigate('m-billing')}
+          className="bg-white rounded-[20px] p-4 shadow-[0_4px_18px_rgba(48,62,140,0.08)] border border-[#E6E9F5] cursor-pointer hover:border-[#4F6BED] transition-all active:scale-[0.99]"
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-2xl shrink-0">🧾</div>
+            <div className="flex-1 min-w-0">
+              <div className="font-extrabold text-[#1F2544] text-[15px]">1 payment to verify</div>
+              <div className="text-xs text-[#6B7194]">Joy · GCash ₱2,500.00</div>
+            </div>
+            <span className="text-lg text-[#6B7194]">›</span>
+          </div>
+        </div>
+
+        {/* Needs Attention: Repair requests */}
+        <div 
+          onClick={() => onNavigate('m-maint')}
+          className="bg-white rounded-[20px] p-4 shadow-[0_4px_18px_rgba(48,62,140,0.08)] border border-[#E6E9F5] cursor-pointer hover:border-[#4F6BED] transition-all active:scale-[0.99]"
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-2xl shrink-0">🔧</div>
+            <div className="flex-1 min-w-0">
+              <div className="font-extrabold text-[#1F2544] text-[15px]">2 open repair requests</div>
+              <div className="text-xs text-[#6B7194]">Leaking faucet · Broken fan</div>
+            </div>
+            <span className="text-lg text-[#6B7194]">›</span>
+          </div>
+        </div>
+
+        {/* Who's Home Section */}
+        <div className="text-[12.5px] font-extrabold text-[#6B7194] uppercase tracking-wider px-1 pt-2">
+          Who's home
+        </div>
+
+        {/* Tenant Roster List */}
+        <div className="bg-white rounded-[20px] p-4 shadow-[0_4px_18px_rgba(48,62,140,0.08)] border border-[#E6E9F5] divide-y divide-[#E6E9F5]">
+          {tenants.map((t, idx) => {
+            const room = rooms.find(r => r.id === t.roomId);
+            const initials = t.name.split(' ').map(x => x[0]).slice(0, 2).join('');
+            const isAway = !t.isHome;
+            const isManual = t.id === 'tenant-6';
+            const presText = isAway 
+              ? '🚶 Away' 
+              : isManual 
+                ? '✋ Home (check-in)' 
+                : '🏠 Home';
+            
+            const seenText = idx === 0 
+              ? '6:15 PM' 
+              : idx === 1 
+                ? '8:02 AM' 
+                : idx === 2 
+                  ? '7:30 PM' 
+                  : idx === 3 
+                    ? '7:41 PM' 
+                    : idx === 4 
+                      ? '12:10 PM' 
+                      : '5:50 PM';
+
+            const statusChip = t.paymentStatus === 'paid' ? (
+              <span className="inline-flex items-center text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#E3F6EC] text-[#21A366]">
+                ✓ Paid
+              </span>
+            ) : t.paymentStatus === 'overdue' ? (
+              <span className="inline-flex items-center text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#FDE6E7] text-[#E5484D]">
+                ! Overdue
+              </span>
+            ) : (
+              <span className="inline-flex items-center text-[12px] font-extrabold px-2.5 py-1 rounded-full bg-[#FFF3DA] text-[#E39B12]">
+                ⏳ Pending
+              </span>
+            );
+
+            return (
+              <div
+                key={t.id}
+                onClick={() => {
+                  onSelectTenant(t.id);
+                  onNavigate('m-tenant');
+                }}
+                className="py-3 flex items-center gap-3 cursor-pointer hover:bg-[#F5F7FF] -mx-2 px-2 rounded-xl transition-colors first:pt-0 last:pb-0"
+              >
+                {/* Avatar with dot */}
+                <div 
+                  className="w-11 h-11 rounded-full flex items-center justify-center font-extrabold text-white text-sm shrink-0 relative shadow-xs"
+                  style={{ backgroundColor: avatarColors[idx % avatarColors.length] }}
                 >
-                  <div className="relative shrink-0">
-                    <img
-                      src={t.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
-                      alt={t.name}
-                      className="w-8 h-8 rounded-full object-cover border border-[#E6E9F5]"
-                    />
-                    <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white ${
-                      t.isHome ? 'bg-[#21A366]' : 'bg-[#8A90AE]'
-                    }`} />
+                  {initials}
+                  <span 
+                    className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white"
+                    style={{ backgroundColor: isAway ? '#8A90AE' : '#21A366' }}
+                  />
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="font-extrabold text-[#1F2544] text-[14.5px]">
+                    {t.nickname || t.name.split(' ')[0]}{' '}
+                    <span className="text-[#6B7194] font-normal text-xs">· {room?.name || 'Room'}</span>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-[#1F2544] truncate">{t.nickname || t.name}</p>
-                    <p className="text-[10px] text-[#6B7194] truncate">{room?.name || 'Room'} · {t.isHome ? 'Home' : 'Away'}</p>
+                  <div className="text-xs text-[#6B7194]">
+                    {presText} · last seen {seenText}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* Quick Action Tiles */}
-        <div className="grid grid-cols-3 gap-2 pt-1">
-          <button
-            onClick={() => onNavigate('m-alerts')}
-            className="p-3 rounded-2xl bg-white border border-[#E6E9F5] hover:border-[#CDD7FF] text-center flex flex-col items-center gap-1.5 transition-colors shadow-xs"
-          >
-            <div className="w-10 h-10 rounded-xl bg-[#E8ECFF] text-[#4F6BED] flex items-center justify-center">
-              <Bell className="w-5 h-5" />
-            </div>
-            <span className="text-[11px] font-bold text-[#1F2544]">Alerts</span>
-          </button>
-
-          <button
-            onClick={() => onNavigate('m-pair')}
-            className="p-3 rounded-2xl bg-white border border-[#E6E9F5] hover:border-[#CDD7FF] text-center flex flex-col items-center gap-1.5 transition-colors shadow-xs"
-          >
-            <div className="w-10 h-10 rounded-xl bg-[#E3F6EC] text-[#21A366] flex items-center justify-center">
-              <QrCode className="w-5 h-5" />
-            </div>
-            <span className="text-[11px] font-bold text-[#1F2544]">Pair QR</span>
-          </button>
-
-          <button
-            onClick={() => onNavigate('m-maint')}
-            className="p-3 rounded-2xl bg-white border border-[#E6E9F5] hover:border-[#CDD7FF] text-center flex flex-col items-center gap-1.5 transition-colors shadow-xs"
-          >
-            <div className="w-10 h-10 rounded-xl bg-[#FFF3DA] text-[#E39B12] flex items-center justify-center">
-              <Wrench className="w-5 h-5" />
-            </div>
-            <span className="text-[11px] font-bold text-[#1F2544]">Repairs</span>
-          </button>
+                {/* Status chip */}
+                {statusChip}
+              </div>
+            );
+          })}
         </div>
       </div>
     );

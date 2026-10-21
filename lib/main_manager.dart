@@ -34,10 +34,10 @@ class BoardMateManagerApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        scaffoldBackgroundColor: const Color(0xFFF5F7FF),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0D9488),
-          primary: const Color(0xFF0D9488),
+          seedColor: const Color(0xFF4F6BED),
+          primary: const Color(0xFF4F6BED),
         ),
         fontFamily: 'Plus Jakarta Sans',
       ),
@@ -83,18 +83,18 @@ class _ManagerRootShellState extends State<ManagerRootShell> {
               children: [
                 const CircleAvatar(
                   radius: 36,
-                  backgroundColor: Color(0xFFECFDF5),
+                  backgroundColor: Color(0xFFE8ECFF),
                   child: Text('👩‍💼', style: TextStyle(fontSize: 36)),
                 ),
                 const SizedBox(height: 18),
                 const Text(
-                  'BoardMate Manager',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                  'Aling Nena',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1F2544)),
                 ),
                 const SizedBox(height: 6),
                 const Text(
                   'Santos Boarding House • Host Device',
-                  style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
+                  style: TextStyle(color: Color(0xFF6B7194), fontSize: 13),
                 ),
                 const SizedBox(height: 32),
                 TextField(
@@ -107,7 +107,7 @@ class _ManagerRootShellState extends State<ManagerRootShell> {
                   decoration: const InputDecoration(
                     hintText: '••••',
                     counterText: '',
-                    labelText: 'Enter 4-Digit Manager PIN',
+                    labelText: 'Enter 4-Digit Manager PIN (1234)',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -118,7 +118,7 @@ class _ManagerRootShellState extends State<ManagerRootShell> {
                   child: ElevatedButton(
                     onPressed: _verifyPin,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0D9488),
+                      backgroundColor: const Color(0xFF4F6BED),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: const Text('Unlock Dashboard', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),

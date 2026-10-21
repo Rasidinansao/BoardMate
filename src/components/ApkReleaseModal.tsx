@@ -39,7 +39,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
       <div className="bg-white rounded-[24px] max-w-2xl w-full shadow-2xl border border-[#E2E8F0] overflow-hidden my-6">
         
         {/* Header */}
-        <div className="bg-[#0D9488] text-white p-6 relative">
+        <div className="bg-[#4F6BED] text-white p-6 relative">
           <button 
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
@@ -53,7 +53,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
             </div>
             <div>
               <h2 className="text-xl font-bold">Release & Install BoardMate APK</h2>
-              <p className="text-teal-100 text-xs mt-0.5">
+              <p className="text-indigo-100 text-xs mt-0.5">
                 Android 8.0+ (Oreo, Pie, 10, 11, 12, 13, 14, 15) • Standalone Mobile App
               </p>
             </div>
@@ -64,7 +64,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
             <button
               onClick={() => setActiveTab('instant')}
               className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeTab === 'instant' ? 'bg-white text-[#0D9488] shadow-sm' : 'text-white/80 hover:text-white'
+                activeTab === 'instant' ? 'bg-white text-[#4F6BED] shadow-sm' : 'text-white/80 hover:text-white'
               }`}
             >
               <Smartphone className="w-3.5 h-3.5" />
@@ -73,7 +73,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
             <button
               onClick={() => setActiveTab('github')}
               className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeTab === 'github' ? 'bg-white text-[#0D9488] shadow-sm' : 'text-white/80 hover:text-white'
+                activeTab === 'github' ? 'bg-white text-[#4F6BED] shadow-sm' : 'text-white/80 hover:text-white'
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
@@ -82,7 +82,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
             <button
               onClick={() => setActiveTab('local')}
               className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeTab === 'local' ? 'bg-white text-[#0D9488] shadow-sm' : 'text-white/80 hover:text-white'
+                activeTab === 'local' ? 'bg-white text-[#4F6BED] shadow-sm' : 'text-white/80 hover:text-white'
               }`}
             >
               <Terminal className="w-3.5 h-3.5" />
@@ -108,14 +108,14 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
               <h5 className="font-bold text-xs uppercase text-[#64748B] tracking-wider">How to Install on Your Android Phone:</h5>
               
               <div className="flex items-start gap-3 p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]">
-                <div className="w-6 h-6 rounded-full bg-[#0D9488] text-white flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                <div className="w-6 h-6 rounded-full bg-[#4F6BED] text-white flex items-center justify-center text-xs font-bold shrink-0">1</div>
                 <div className="text-xs text-[#334155] leading-relaxed flex-1">
                   Click the <strong>"Share"</strong> button at the top right of AI Studio to activate your public link, then open it in Chrome on your phone:
-                  <div className="mt-1.5 p-2 bg-white rounded-lg border border-[#CBD5E1] font-mono text-[11px] text-[#0D9488] flex items-center justify-between">
+                  <div className="mt-1.5 p-2 bg-white rounded-lg border border-[#CBD5E1] font-mono text-[11px] text-[#4F6BED] flex items-center justify-between">
                     <span className="truncate">{sharedAppUrl}</span>
                     <button 
                       onClick={() => copyToClipboard(sharedAppUrl, 'url')}
-                      className="ml-2 text-[#64748B] hover:text-[#0D9488]"
+                      className="ml-2 text-[#64748B] hover:text-[#4F6BED]"
                       title="Copy URL"
                     >
                       {copiedText === 'url' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
@@ -128,21 +128,21 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
               </div>
 
               <div className="flex items-start gap-3 p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]">
-                <div className="w-6 h-6 rounded-full bg-[#0D9488] text-white flex items-center justify-center text-xs font-bold shrink-0">2</div>
+                <div className="w-6 h-6 rounded-full bg-[#4F6BED] text-white flex items-center justify-center text-xs font-bold shrink-0">2</div>
                 <div className="text-xs text-[#334155] leading-relaxed">
                   Tap the Chrome menu (the <strong>3 dots ⋮</strong> in the top-right corner).
                 </div>
               </div>
 
               <div className="flex items-start gap-3 p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]">
-                <div className="w-6 h-6 rounded-full bg-[#0D9488] text-white flex items-center justify-center text-xs font-bold shrink-0">3</div>
+                <div className="w-6 h-6 rounded-full bg-[#4F6BED] text-white flex items-center justify-center text-xs font-bold shrink-0">3</div>
                 <div className="text-xs text-[#334155] leading-relaxed">
                   Tap <strong>"Install App"</strong> or <strong>"Add to Home screen"</strong>.
                 </div>
               </div>
 
               <div className="flex items-start gap-3 p-3.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]">
-                <div className="w-6 h-6 rounded-full bg-[#0D9488] text-white flex items-center justify-center text-xs font-bold shrink-0">4</div>
+                <div className="w-6 h-6 rounded-full bg-[#4F6BED] text-white flex items-center justify-center text-xs font-bold shrink-0">4</div>
                 <div className="text-xs text-[#334155] leading-relaxed">
                   <strong>Done!</strong> BoardMate will now appear on your home screen with the official house icon, full-screen without address bars, and instant local response.
                 </div>
@@ -200,7 +200,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
               
               <div className="space-y-2.5">
                 <div>
-                  <div className="text-[11px] font-bold text-[#0D9488] mb-1">1. Build Manager APK:</div>
+                  <div className="text-[11px] font-bold text-[#4F6BED] mb-1">1. Build Manager APK:</div>
                   <div className="bg-[#0F172A] text-emerald-400 p-2.5 rounded-xl font-mono text-[11px] flex items-center justify-between">
                     <span className="truncate">flutter build apk --flavor manager -t lib/main_manager.dart --release</span>
                     <button
@@ -243,7 +243,7 @@ export function ApkReleaseModal({ isOpen, onClose, sharedAppUrl }: ApkReleaseMod
           <span className="text-xs text-[#64748B]">BoardMate v1.0.0 Stable</span>
           <button
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl bg-[#0D9488] hover:bg-[#0F766E] text-white font-bold text-xs shadow-xs transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-[#4F6BED] hover:bg-[#3550C8] text-white font-bold text-xs shadow-xs transition-colors"
           >
             Got It! Close Window
           </button>

@@ -28,10 +28,10 @@ class BoardMateTenantApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        scaffoldBackgroundColor: const Color(0xFFF5F7FF),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0D9488),
-          primary: const Color(0xFF0D9488),
+          seedColor: const Color(0xFF4F6BED),
+          primary: const Color(0xFF4F6BED),
         ),
         fontFamily: 'Plus Jakarta Sans',
       ),
