@@ -1,0 +1,6 @@
+{
+  "name": "BoardMate - Boarding House Manager & Tenant App",
+  "description": "Local-first Philippine boarding house management system for landlord managers and tenants over house WiFi with rent tracking, QR pairing, presence, and alerts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

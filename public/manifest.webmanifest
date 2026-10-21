@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "BoardMate - Boarding House Manager",
+  "short_name": "BoardMate",
+  "description": "Local-first Philippine boarding house management system for landlord managers and tenants over house WiFi.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D9488",
+  "theme_color": "#0D9488",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

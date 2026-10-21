@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BoardMate — Step 2 Mockups</title>
+<style>
+:root{
+  --primary:#4F6BED; --primary-soft:#E8ECFF; --primary-dark:#3550C8;
+  --bg:#F5F7FF; --card:#FFFFFF; --text:#1F2544; --muted:#6B7194; --line:#E6E9F5;
+  --paid:#21A366; --paid-soft:#E3F6EC;
+  --pending:#E39B12; --pending-soft:#FFF3DA;
+  --overdue:#E5484D; --overdue-soft:#FDE6E7;
+  --home:#21A366; --away:#8A90AE;
+  --radius:20px; --shadow:0 4px 18px rgba(48,62,140,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Nunito","Segoe UI",Roboto,system-ui,sans-serif;background:#E9ECF8;color:var(--text)}
+header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 22px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+header.top h1{font-size:18px;margin:0}
+header.top h1 small{font-weight:400;color:var(--muted);font-size:13px;margin-left:6px}
+.seg{display:inline-flex;background:var(--bg);border-radius:999px;padding:4px;border:1px solid var(--line)}
+.seg button{border:0;background:transparent;padding:8px 14px;border-radius:999px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--primary);color:#fff}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.controls label{font-size:13px;color:var(--muted)}
+.controls select{font:inherit;padding:6px 10px;border-radius:10px;border:1px solid var(--line)}
+.layout{display:grid;grid-template-columns:230px 410px minmax(260px,1fr);gap:22px;padding:22px;align-items:start;max-width:1280px;margin:0 auto}
+@media(max-width:1000px){.layout{grid-template-columns:1fr;justify-items:center}.index,.notes{width:100%;max-width:410px}}
+.index{background:#fff;border-radius:16px;padding:12px;box-shadow:var(--shadow);position:sticky;top:80px}
+.index h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:10px 8px 6px}
+.index a{display:block;padding:8px 10px;border-radius:10px;color:var(--text);text-decoration:none;font-size:14px;cursor:pointer}
+.index a:hover{background:var(--bg)}
+.index a.on{background:var(--primary-soft);color:var(--primary-dark);font-weight:700}
+.notes{background:#fff;border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);position:sticky;top:80px}
+.notes h2{margin:0 0 4px;font-size:20px}
+.notes .tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary-dark);margin-bottom:10px}
+.notes h4{margin:16px 0 6px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.notes p,.notes li{font-size:14.5px;line-height:1.5}
+.notes ul{padding-left:18px;margin:4px 0}
+
+/* phone */
+.phone{width:390px;height:820px;background:#111;border-radius:46px;padding:12px;box-shadow:0 20px 50px rgba(20,30,80,.25);position:relative}
+.screen{width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.statusbar{height:34px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;font-size:13px;font-weight:700;flex-shrink:0}
+.content{flex:1;overflow-y:auto;padding:4px 16px 20px;scrollbar-width:thin}
+.appbar{display:flex;align-items:center;gap:10px;padding:6px 0 12px}
+.appbar h2{font-size:22px;margin:0;flex:1}
+.iconbtn{width:44px;height:44px;border-radius:14px;border:0;background:#fff;box-shadow:var(--shadow);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.nav{display:flex;justify-content:space-around;background:#fff;border-top:1px solid var(--line);padding:6px 4px 14px;flex-shrink:0}
+.nav button{border:0;background:transparent;font:inherit;font-size:11.5px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;min-width:62px;min-height:52px;cursor:pointer;border-radius:14px;padding-top:4px;position:relative}
+.nav button .ic{font-size:22px}
+.nav button.on{color:var(--primary-dark);font-weight:800}
+.nav button.on .ic{background:var(--primary-soft);border-radius:999px;padding:0 14px}
+.badge{position:absolute;top:0;right:10px;background:var(--overdue);color:#fff;font-size:10px;font-weight:800;border-radius:999px;padding:1px 6px}
+
+.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.card.tap{cursor:pointer}
+.card.tap:active{transform:scale(.99)}
+.row{display:flex;align-items:center;gap:12px}
+.between{justify-content:space-between}
+.grow{flex:1;min-width:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.big{font-size:28px;font-weight:800}
+.h{font-weight:800;font-size:16px}
+.sec{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:18px 4px 8px}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;flex-shrink:0;position:relative}
+.avatar .dot{position:absolute;right:-1px;bottom:-1px;width:14px;height:14px;border-radius:50%;border:2px solid #fff}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.paid{background:var(--paid-soft);color:var(--paid)}
+.pending{background:var(--pending-soft);color:#B07400}
+.overdue{background:var(--overdue-soft);color:var(--overdue)}
+.neutral{background:#EEF0F7;color:var(--muted)}
+.homec{background:var(--paid-soft);color:var(--paid)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border:0;border-radius:16px;font:inherit;font-weight:800;font-size:16px;cursor:pointer;background:var(--primary);color:#fff;margin-top:8px}
+.btn.secondary{background:var(--primary-soft);color:var(--primary-dark)}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+.btn.danger{background:var(--overdue);color:#fff}
+.btn.sm{min-height:42px;font-size:14px;border-radius:12px;width:auto;padding:0 14px;margin:0}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:800;color:var(--muted);margin:0 0 6px 4px}
+.field input,.field select,.field textarea{width:100%;min-height:50px;border-radius:14px;border:1.5px solid var(--line);padding:12px 14px;font:inherit;font-size:16px;background:#fff;color:var(--text)}
+.field textarea{min-height:90px;resize:none}
+.field .err{color:var(--overdue);font-size:12.5px;margin:6px 4px 0;display:none}
+.field.invalid input{border-color:var(--overdue)}
+.field.invalid .err{display:block}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.pill.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.list .item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.list .item:last-child{border-bottom:0}
+.toggle{width:52px;height:30px;border-radius:999px;background:#D5D9EA;position:relative;cursor:pointer;flex-shrink:0;border:0}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on{background:var(--primary)}
+.toggle.on::after{left:25px}
+.banner{border-radius:16px;padding:12px 14px;font-size:14px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
+.banner.warn{background:var(--pending-soft);color:#7A5200}
+.banner.info{background:var(--primary-soft);color:var(--primary-dark)}
+.banner.bad{background:var(--overdue-soft);color:#9B1C20}
+.banner.good{background:var(--paid-soft);color:#11683F}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{background:#fff;border-radius:18px;box-shadow:var(--shadow);border:0;font:inherit;padding:12px 6px;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:12.5px;font-weight:800;color:var(--text);text-align:center}
+.tile .em{font-size:30px}
+.tile.emer{background:var(--overdue-soft);color:var(--overdue)}
+.tile:active{transform:scale(.97)}
+.progress{height:10px;background:#EEF0F7;border-radius:999px;overflow:hidden}
+.progress > div{height:100%;background:var(--paid);border-radius:999px}
+.room{border-left:6px solid var(--primary)}
+.bed{background:var(--bg);border-radius:14px;padding:10px 12px;margin-top:8px;cursor:pointer}
+.qr{width:220px;height:220px;margin:8px auto;display:grid;grid-template-columns:repeat(25,1fr);background:#fff;padding:10px;border-radius:16px;box-shadow:var(--shadow)}
+.qr div{background:#fff}.qr div.b{background:#1F2544}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin:18px 0}
+.pin-dots span{width:16px;height:16px;border-radius:50%;border:2px solid var(--primary)}
+.pin-dots span.f{background:var(--primary)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 20px}
+.keypad button{height:66px;border-radius:20px;border:0;background:#fff;font:inherit;font-size:26px;font-weight:700;box-shadow:var(--shadow);cursor:pointer}
+.hero{text-align:center;padding:18px 6px 6px}
+.hero .em{font-size:56px}
+.hold{position:relative;overflow:hidden}
+.hold .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.35);transition:none}
+.toast{position:absolute;left:16px;right:16px;bottom:90px;background:#1F2544;color:#fff;border-radius:16px;padding:14px 16px;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;z-index:30}
+.toast.show{opacity:1;transform:none}
+.notif{position:absolute;left:10px;right:10px;top:40px;background:#fff;border-radius:18px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:31;font-size:13.5px;transform:translateY(calc(-100% - 60px));visibility:hidden;transition:.3s}
+.notif.show{transform:none;visibility:visible}
+.sheet-bg{position:absolute;inset:0;background:rgba(20,25,60,.35);z-index:25;display:none}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:26px 26px 0 0;padding:10px 18px 24px;z-index:26;transform:translateY(100%);transition:.25s;max-height:85%;overflow-y:auto}
+.sheet.show{transform:none}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:#D5D9EA;margin:0 auto 12px}
+.skel{background:linear-gradient(90deg,#E8EBF6 25%,#F3F5FC 50%,#E8EBF6 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:16px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.thumb{width:84px;height:84px;border-radius:14px;display:grid;place-items:center;font-size:30px;position:relative;cursor:pointer;background:linear-gradient(135deg,#DDE4FF,#F3E8FF)}
+.thumb .x{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;background:#1F2544;color:#fff;font-size:13px;display:grid;place-items:center;border:0;cursor:pointer}
+.thumb.add{background:#fff;border:2px dashed var(--line);font-size:13px;font-weight:800;color:var(--muted);flex-direction:column;display:flex;align-items:center;justify-content:center;gap:2px}
+.thumb.add span{font-size:26px}
+.field.invalid .thumb.add{border-color:var(--overdue)}
+.receipt{background:#fff;border-radius:18px;padding:18px;border:2px dashed var(--line)}
+.kv{display:flex;justify-content:space-between;padding:6px 0;font-size:14.5px}
+.kv.total{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:800;font-size:16px}
+a.link{color:var(--primary-dark);font-weight:800;cursor:pointer;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>🏠 BoardMate <small>Step 2 · Interactive mockups (390px phone)</small></h1>
+  <div class="controls">
+    <div class="seg" id="roleSeg">
+      <button data-role="manager" class="on">👩‍💼 Manager</button>
+      <button data-role="tenant">🧑 Tenant</button>
+    </div>
+    <label>Screen state
+      <select id="stateSel">
+        <option value="normal">Normal</option>
+        <option value="loading">Loading</option>
+        <option value="empty">Empty</option>
+        <option value="error">Error</option>
+      </select>
+    </label>
+    <label id="offlineWrap" style="display:none">
+      <select id="offlineSel">
+        <option value="online">On house WiFi</option>
+        <option value="away">Away from house WiFi</option>
+        <option value="hostaway">Home, but host is away</option>
+      </select>
+    </label>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="index" id="index"></nav>
+  <div class="phone">
+    <div class="screen" id="screen">
+      <div class="statusbar"><span>7:42 PM</span><span>📶 🔋 82%</span></div>
+      <div class="content" id="content"></div>
+      <div class="nav" id="nav"></div>
+      <div class="sheet-bg" id="sheetBg"></div>
+      <div class="sheet" id="sheet"></div>
+      <div class="toast" id="toast"></div>
+      <div class="notif" id="notif"></div>
+    </div>
+  </div>
+  <aside class="notes" id="notes"></aside>
+</div>
+
+<script>
+/* ---------------- Sample data (3 rooms, 6 tenants) ---------------- */
+const peso = c => "₱" + (c/100).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
+const colors = ["#4F6BED","#F08A5D","#2BB3A3","#B66DFF","#E85D9C","#E3A008"];
+const rooms = [
+  {id:"A", name:"Room A", emoji:"🌻", price:500000},
+  {id:"B", name:"Room B", emoji:"🌊", price:500000},
+  {id:"C", name:"Room C", emoji:"🌙", price:500000},
+];
+const tenants = [
+  {id:1,name:"Maria Santos",first:"Maria",room:"A",bed:"Lower bed",share:250000,due:5, status:"paid",   nextDue:"Nov 5", pres:"home",   seen:"6:15 PM", phone:"0917 123 4567", paired:true, consent:true},
+  {id:2,name:"Joy Dela Cruz",first:"Joy",room:"A",bed:"Upper bed",share:250000,due:12,status:"pending",nextDue:"Oct 12",pres:"away",   seen:"8:02 AM", phone:"0918 555 0101", paired:true, consent:true, note:"GCash ref 1009 2345 6789 — waiting for your check"},
+  {id:3,name:"Paolo Reyes",first:"Paolo",room:"B",bed:"Lower bed",share:250000,due:15,status:"overdue",nextDue:"Oct 15",pres:"home",   seen:"7:30 PM", phone:"0927 888 2222", paired:true, consent:true},
+  {id:4,name:"Mark Villanueva",first:"Mark",room:"B",bed:"Upper bed",share:250000,due:1, status:"paid",   nextDue:"Nov 1", pres:"home",   seen:"7:41 PM", phone:"0905 333 9090", paired:true, consent:true},
+  {id:5,name:"Angel Bautista",first:"Angel",room:"C",bed:"Lower bed",share:250000,due:28,status:"pending",nextDue:"Oct 28",pres:"away",   seen:"12:10 PM",phone:"0919 444 7878", paired:true, consent:true, note:"Due in 8 days"},
+  {id:6,name:"Kim Navarro",first:"Kim",room:"C",bed:"Upper bed",share:250000,due:8, status:"paid",   nextDue:"Nov 8", pres:"manual", seen:"5:50 PM", phone:"0995 222 1313", paired:false,consent:false},
+];
+const statusLabel = {paid:"✓ Paid", pending:"⏳ Pending", overdue:"! Overdue"};
+const presLabel = t => t.pres==="home" ? "🏠 Home" : t.pres==="manual" ? "✋ Home (check-in)" : "🚶 Away";
+const initials = n => n.split(" ").map(x=>x[0]).slice(0,2).join("");
+const avatar = (t,dot=true) => `<div class="avatar" style="background:${colors[(t.id-1)%6]}">${initials(t.name)}${dot?`<span class="dot" style="background:${t.pres==="away"?"var(--away)":"var(--home)"}"></span>`:""}</div>`;
+const me = tenants[1]; // tenant persona: Joy, Room A
+
+/* ---------------- App state ---------------- */
+const S = { role:"manager", screen:"m-lock", param:null, state:"normal", net:"online", pin:"", method:"GCash", sel:{}, photos:{} };
+
+/* ---------------- Helpers ---------------- */
+// Banners: keep the leading emoji in its own column and the text in one block.
+function fixBanners(root){root.querySelectorAll('.banner:not([data-f])').forEach(b=>{b.dataset.f=1;const kids=[...b.childNodes].filter(n=>!(n.nodeType===3&&!n.textContent.trim()));if(kids.length===2&&kids[1].nodeName==='DIV')return;const t=b.firstChild;if(!t||t.nodeType!==3)return;const str=t.textContent.trimStart();const i=str.indexOf(' ');const em=str.slice(0,i);t.textContent=str.slice(i+1);const d=document.createElement('div');while(b.firstChild)d.appendChild(b.firstChild);const e=document.createElement('span');e.textContent=em;b.append(e,d);});}
+function toast(msg){const t=document.getElementById("toast");t.innerHTML=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2600);}
+function notif(title,body){const n=document.getElementById("notif");n.innerHTML=`<div class="row"><b style="font-size:18px">🏠</b><div class="grow"><b>${title}</b><div class="muted">${body}</div></div><span class="muted small">now</span></div>`;n.classList.add("show");clearTimeout(n._h);n._h=setTimeout(()=>n.classList.remove("show"),3200);}
+function openSheet(html){document.getElementById("sheet").innerHTML=`<div class="grab"></div>`+html;document.getElementById("sheet").classList.add("show");fixBanners(document.getElementById("sheet"));document.getElementById("sheetBg").style.display="block";}
+function closeSheet(){document.getElementById("sheet").classList.remove("show");document.getElementById("sheetBg").style.display="none";}
+document.getElementById("sheetBg").onclick=closeSheet;
+function go(screen,param){S.screen=screen;S.param=param??null;closeSheet();render();document.getElementById("content").scrollTop=0;}
+const offline = () => S.role==="tenant" && S.net!=="online";
+function queued(action){ if(offline()){toast("📥 Saved on your phone — will send automatically when the host is reachable.");return true;} return false; }
+function appbar(title,back,right=""){return `<div class="appbar">${back?`<button class="iconbtn" onclick="go('${back}')">←</button>`:""}<h2>${title}</h2>${right}</div>`;}
+function qrGrid(seed){let h="";let x=seed;for(let i=0;i<625;i++){x=(x*9301+49297)%233280;const r=Math.floor(i/25),c=i%25;const finder=(r<7&&c<7)||(r<7&&c>17)||(r>17&&c<7);let b;if(finder){const rr=r>17?r-18:r,cc=c>17?c-18:c;b=(rr===0||rr===6||cc===0||cc===6)||(rr>=2&&rr<=4&&cc>=2&&cc<=4);}else b=x/233280>.5;h+=`<div class="${b?"b":""}"></div>`;}return `<div class="qr">${h}</div>`;}
+
+/* ---------------- Screens ---------------- */
+const screens = {
+/* ===== MANAGER ===== */
+"m-lock":{role:"manager",title:"PIN unlock",nav:false,
+ purpose:"Protects the manager app. Every time the app opens (or after 5 minutes in the background) the manager enters a PIN or uses a fingerprint.",
+ flow:["Enter the 4–6 digit PIN, or tap the fingerprint button.","After 5 wrong tries the keypad locks for 1 minute (also enforced by the host).","Success → Dashboard. The host server keeps running even while the app is locked."],
+ render:()=>`<div class="hero" style="padding-top:50px"><div class="em">🏠</div><h2 style="margin:8px 0 2px">Welcome back!</h2><div class="muted">Enter your PIN to manage the house</div></div>
+ <div class="pin-dots">${[0,1,2,3].map(i=>`<span class="${S.pin.length>i?"f":""}"></span>`).join("")}</div>
+ <div class="keypad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="pinKey(${n})">${n}</button>`).join("")}<button onclick="toast('👆 Fingerprint accepted');setTimeout(()=>go('m-dash'),500)">👆</button><button onclick="pinKey(0)">0</button><button onclick="S.pin=S.pin.slice(0,-1);render()">⌫</button></div>
+ <p class="muted small" style="text-align:center;margin-top:18px">Mockup: type any 4 digits</p>`},
+
+"m-dash":{role:"manager",title:"Dashboard",tab:"home",empty:"No tenants yet — add your first tenant in Rooms.",
+ purpose:"The manager's one-glance overview: is the host running, who's home, who has paid, and what needs attention right now.",
+ flow:["Host card shows the server is running and how many tenants are connected.","The backup banner appears when the last backup is more than 7 days old → tap to Settings › Backup.","Tap a tenant row → Tenant profile. Tap \"Needs attention\" items → Quick Alerts or Maintenance.","Rent status uses the three status colors: green Paid, amber Pending, red Overdue."],
+ render:()=>{const paid=tenants.filter(t=>t.status==="paid").length;return `
+ <div class="appbar"><div class="grow"><div class="muted small">Good evening 🌙</div><h2>Aling Nena</h2></div><button class="iconbtn" onclick="go('m-alerts')">🔔</button></div>
+ <div class="banner warn">💾 <div class="grow"><b>Last backup was 9 days ago.</b><br>Protect your data in 1 tap. <a class="link" onclick="go('m-settings')">Back up now →</a></div></div>
+ <div class="card"><div class="row"><div style="font-size:26px">🟢</div><div class="grow"><div class="h">Host is running</div><div class="muted small">192.168.1.50:8080 · 5 of 6 tenants paired</div></div><span class="chip paid">Online</span></div></div>
+ <div class="card"><div class="row between"><div><div class="muted small">October rent collected</div><div class="big">${peso(750000)}</div><div class="muted small">of ${peso(1500000)} expected</div></div><div style="font-size:40px">💰</div></div>
+ <div class="progress" style="margin-top:10px"><div style="width:50%"></div></div>
+ <div class="row" style="margin-top:12px;gap:8px"><span class="chip paid">✓ ${paid} Paid</span><span class="chip pending">⏳ 2 Pending</span><span class="chip overdue">! 1 Overdue</span></div></div>
+ <div class="sec">Needs attention</div>
+ <div class="card tap" onclick="go('m-alerts')"><div class="row"><div style="font-size:28px">🔊</div><div class="grow"><div class="h">Noise report · Room B</div><div class="muted small">10 min ago · inside quiet hours</div></div><span class="chip overdue">New</span></div></div>
+ <div class="card tap" onclick="go('m-billing')"><div class="row"><div style="font-size:28px">🧾</div><div class="grow"><div class="h">1 payment to verify</div><div class="muted small">Joy · GCash ₱2,500.00</div></div><span>›</span></div></div>
+ <div class="card tap" onclick="go('m-maint')"><div class="row"><div style="font-size:28px">🔧</div><div class="grow"><div class="h">2 open repair requests</div><div class="muted small">Leaking faucet · Broken fan</div></div><span>›</span></div></div>
+ <div class="sec">Who's home</div>
+ <div class="card list">${tenants.map(t=>`<div class="item" style="cursor:pointer" onclick="go('m-tenant',${t.id})">${avatar(t)}<div class="grow"><div class="h">${t.first} <span class="muted small">· Room ${t.room}</span></div><div class="muted small">${presLabel(t)} · last seen ${t.seen}</div></div><span class="chip ${t.status}">${statusLabel[t.status]}</span></div>`).join("")}</div>`}},
+
+"m-rooms":{role:"manager",title:"Rooms & occupants",tab:"rooms",empty:"No rooms set up yet. Tap + to add a room.",
+ purpose:"Shows the 3 rooms, their monthly price, and who sleeps in each bed. This is where the manager edits the room price and assigns or moves tenants.",
+ flow:["Each room card shows the room price and the current share per tenant (room price ÷ occupants).","Tap ✏️ to edit the room price → choose the month it starts (old bills don't change).","Tap a bed → Tenant profile. Tap an empty bed → Move-in form (pick tenant, move-in date, due day, deposit + advance).","When someone moves in or out, the app suggests new shares for the roommate; the manager confirms."],
+ render:()=>appbar("Rooms",null,`<button class="iconbtn" onclick="toast('➕ Add room (only needed if you build more rooms)')">＋</button>`)+rooms.map(r=>{const occ=tenants.filter(t=>t.room===r.id);return `
+ <div class="card room"><div class="row between"><div><div class="h" style="font-size:18px">${r.emoji} ${r.name}</div><div class="muted small">${peso(r.price)} / month · ${occ.length} of 2 beds</div></div><button class="iconbtn" onclick="editPrice('${r.id}')">✏️</button></div>
+ ${occ.map(t=>`<div class="bed" onclick="go('m-tenant',${t.id})"><div class="row">${avatar(t,false)}<div class="grow"><div class="h">${t.name}</div><div class="muted small">${t.bed} · share ${peso(t.share)} · due every ${t.due}${ord(t.due)}</div></div><span class="chip ${t.status}">${statusLabel[t.status]}</span></div></div>`).join("")}
+ </div>`}).join("")+`<div class="banner info">💡 Share per tenant = room price ÷ people in the room. You can override any share in the tenant profile.</div>`},
+
+"m-tenant":{role:"manager",title:"Tenant profile",tab:"rooms",empty:"This tenant has no bills yet.",
+ purpose:"Everything about one tenant: contact info, bed, rent share and due day, deposit, payment history, presence, and their paired phone.",
+ flow:["Call or SMS buttons open the phone's own apps (no internet needed).","Edit share / due day → new values apply from the next due date.","Log payment → payment form pre-filled for this tenant.","Revoke device instantly blocks the tenant's phone (lost phone or moved out).","Move out → shows prorated last bill + deposit settlement (deposit − unpaid − deductions = refund)."],
+ render:()=>{const t=tenants.find(x=>x.id===(S.param||3));return appbar("Tenant","m-rooms")+`
+ <div class="card"><div class="row">${avatar(t)}<div class="grow"><div class="h" style="font-size:19px">${t.name}</div><div class="muted small">${rooms.find(r=>r.id===t.room).name} · ${t.bed}</div></div><span class="chip ${t.status}">${statusLabel[t.status]}</span></div>
+ <div class="btns"><button class="btn sm secondary" onclick="toast('📞 Opening phone dialer…')">📞 Call</button><button class="btn sm secondary" onclick="toast('💬 Opening SMS app…')">💬 SMS</button><button class="btn sm ghost" onclick="toast('✏️ Edit profile')">✏️ Edit</button></div></div>
+ <div class="card"><div class="kv"><span class="muted">Monthly share</span><b>${peso(t.share)}</b></div><div class="kv"><span class="muted">Due day</span><b>Every ${t.due}${ord(t.due)}</b></div><div class="kv"><span class="muted">Next due</span><b>${t.nextDue}</b></div><div class="kv"><span class="muted">Moved in</span><b>Mar ${t.due}, 2026</b></div><div class="kv"><span class="muted">Deposit held</span><b>${peso(250000)}</b></div><div class="kv"><span class="muted">Balance</span><b style="color:${t.status==="overdue"?"var(--overdue)":"inherit"}">${t.status==="paid"?peso(0):peso(250000)}</b></div>
+ <button class="btn" onclick="go('m-pay',${t.id})">＋ Log payment</button></div>
+ <div class="sec">Payment history</div>
+ <div class="card list">
+  <div class="item"><div style="font-size:22px">📱</div><div class="grow"><div class="h">${peso(250000)} · GCash</div><div class="muted small">Sep ${t.due} · Ref 1008 7721 0042</div></div><button class="btn sm ghost" onclick="showReceipt(${t.id})">🧾</button></div>
+  <div class="item"><div style="font-size:22px">💵</div><div class="grow"><div class="h">${peso(250000)} · Cash</div><div class="muted small">Aug ${t.due} · received by Aling Nena</div></div><button class="btn sm ghost" onclick="showReceipt(${t.id})">🧾</button></div>
+ </div>
+ <div class="sec">Presence & phone</div>
+ <div class="card"><div class="kv"><span class="muted">Status</span><b>${presLabel(t)} · ${t.seen}</b></div><div class="kv"><span class="muted">Presence sharing</span><b>${t.consent?"Allowed ✓":"Off · manual check-in"}</b></div>
+ <div class="row between" style="margin-top:6px"><span>Mute arrival notifications</span><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+ <div class="kv"><span class="muted">Device</span><b>${t.paired?"Paired · Redmi Note 12":"Not paired"}</b></div>
+ <div class="btns">${t.paired?`<button class="btn sm ghost" style="color:var(--overdue)" onclick="confirmRevoke('${t.first}')">⛔ Revoke device</button>`:`<button class="btn sm" onclick="go('m-pair',${t.id})">📷 Pair phone</button>`}<button class="btn sm ghost" onclick="moveOut(${t.id})">📦 Move out</button></div></div>`}},
+
+"m-billing":{role:"manager",title:"Billing & payments",tab:"bill",empty:"No bills this month. Bills are created automatically on each tenant's due date.",
+ purpose:"Collect rent. Shows each tenant's current cycle (based on their own due day), payments waiting to be verified, and overdue rent.",
+ flow:["\"To verify\" lists payments tenants reported themselves, with their reference number and receipt photo (tap to zoom). Check your GCash app, then Verify or Reject.","Each row shows the tenant's own cycle and due date. Overdue = past due date + 3 grace days (Manila time).","＋ Log payment → payment form (cash, GCash, Maya, bank).","Utilities show \"Included in rent\" while that setting is ON."],
+ render:()=>appbar("Billing",null,`<button class="iconbtn" onclick="go('m-pay')">＋</button>`)+`
+ <div class="card"><div class="row between"><div><div class="muted small">October 2026</div><div class="big">${peso(750000)}</div><div class="muted small">collected of ${peso(1500000)}</div></div><div class="pills"><span class="chip neutral">⚡💧📶 Included</span></div></div></div>
+ <div class="sec">To verify (1)</div>
+ <div class="card" style="border:2px solid var(--pending)"><div class="row">${avatar(tenants[1],false)}<div class="grow"><div class="h">Joy · ${peso(250000)}</div><div class="muted small">📱 GCash · Ref <b>1009 2345 6789</b><br>Sent Oct 12, 9:14 AM</div></div><div class="thumb" style="width:64px;height:64px;font-size:24px" onclick="viewPhoto('🧾')">🧾</div></div>
+ <div class="muted small" style="margin-top:6px">Tap the receipt to zoom. Compare amount + reference with your GCash app.</div>
+ <div class="btns"><button class="btn sm" style="background:var(--paid)" onclick="toast('✓ Verified. Joy gets a receipt.');">✓ Verify</button><button class="btn sm ghost" onclick="toast('Rejected — Joy will be asked to check the reference number.')">✕ Reject</button></div></div>
+ <div class="sec">Current cycles</div>
+ <div class="card list">${tenants.map(t=>`<div class="item" style="cursor:pointer" onclick="go('m-tenant',${t.id})">${avatar(t,false)}<div class="grow"><div class="h">${t.first} <span class="muted small">· Room ${t.room}</span></div><div class="muted small">${t.status==="paid"?"Next due "+t.nextDue:"Due "+t.nextDue} · ${peso(t.share)}</div></div><span class="chip ${t.status}">${statusLabel[t.status]}</span></div>`).join("")}</div>
+ <button class="btn secondary" onclick="toast('📤 Monthly summary image ready to share')">📤 Share October summary</button>`},
+
+"m-pay":{role:"manager",title:"Log payment",tab:"bill",nav:false,
+ purpose:"Record money received. Reference number is required for GCash, Maya and bank transfers, so every digital payment can be traced later.",
+ flow:["Pick the tenant (pre-filled when coming from a profile). Amount defaults to their balance.","Pick a method. For non-cash, the reference number field is required.","Save → payment is Verified right away (manager-entered) → balance updates on both phones → receipt can be shared."],
+ render:()=>{const t=tenants.find(x=>x.id===(S.param||3));return appbar("Log payment","m-billing")+`
+ <div class="card"><div class="field"><label>Tenant</label><select>${tenants.map(x=>`<option ${x.id===t.id?"selected":""}>${x.name} · Room ${x.room}</option>`).join("")}</select></div>
+ <div class="field"><label>Amount (₱)</label><input id="amt" inputmode="decimal" value="2,500.00"></div>
+ <div class="field"><label>Method</label><div class="pills">${["Cash","GCash","Maya","Bank"].map(m=>`<button class="pill ${S.method===m?"on":""}" onclick="S.method='${m}';render()">${{Cash:"💵",GCash:"📱",Maya:"💚",Bank:"🏦"}[m]} ${m}</button>`).join("")}</div></div>
+ ${S.method!=="Cash"?`<div class="field" id="refField"><label>Reference number *</label><input id="ref" placeholder="e.g. 1009 2345 6789"><div class="err">Reference number is required for ${S.method}.</div></div>`:""}
+ ${photoField('mpay','Receipt / proof photo',1,false,S.method==='Cash'?'💵':'🧾')}
+ <div class="field"><label>Date paid</label><input value="Oct 20, 2026"></div>
+ <div class="field"><label>Note (optional)</label><input placeholder="e.g. paid by her mother"></div>
+ <button class="btn" onclick="savePayment()">Save payment</button></div>`}},
+
+"m-alerts":{role:"manager",title:"Quick Alerts",tab:"alerts",empty:"All quiet 🌙 No alerts from tenants.",
+ purpose:"Inbox for the emoji buttons tenants press, plus the manager's own emoji buttons to send reminders to a room, one tenant, or everyone.",
+ flow:["Tenant alerts arrive instantly (this phone is the server) with a notification.","Only the manager sees who sent a report. Actions: Send reminder (to the reported room), Call/visit, Dismiss.","Send reminder opens a ready-made, editable message. \"Also send by SMS\" opens the SMS app pre-filled, for tenants whose app is closed.","Manager buttons below send to a room / tenant / everyone."],
+ render:()=>appbar("Quick Alerts")+`
+ <div class="sec">From tenants</div>
+ <div class="card" style="border:2px solid var(--overdue-soft)"><div class="row"><div style="font-size:32px">🔊</div><div class="grow"><div class="h">Too noisy · Room B</div><div class="muted small">10 min ago · 10:32 PM · inside quiet hours</div><div class="small" style="margin-top:4px">🔒 From <b>Joy</b> (only you can see this)</div></div><span class="chip overdue">New</span></div>
+ <div class="btns"><button class="btn sm" onclick="composer('🤫','Please keep it down','Room B','Hi Room B 🙂 gentle reminder: quiet hours started at 10 PM. Thank you!')">🤫 Send reminder</button><button class="btn sm ghost" onclick="toast('📞 Calling Room B…')">📞 Call</button><button class="btn sm ghost" onclick="toast('Dismissed')">Dismiss</button></div></div>
+ <div class="card"><div class="row"><div style="font-size:28px">🧹</div><div class="grow"><div class="h">Needs cleaning · Kitchen</div><div class="muted small">Yesterday 4:10 PM · from Mark</div></div><span class="chip paid">Handled</span></div></div>
+ <div class="card"><div class="row"><div style="font-size:28px">⚡</div><div class="grow"><div class="h">Brownout on my side</div><div class="muted small">Oct 18, 2:05 PM · from Angel</div></div><span class="chip paid">Handled</span></div></div>
+ <div class="sec">Send to tenants</div>
+ <div class="tiles">
+  ${[["🤫","Keep it down","Room B","Hi Room B 🙂 gentle reminder: quiet hours start at 10 PM. Thank you!"],["📦","Parcel for you","Joy","Hi Joy! You have a parcel 📦 waiting at the front."],["💧","Water interruption","Everyone","Scheduled water interruption tomorrow 8 AM–5 PM. Please store water 💧"],["🗑️","Garbage day","Everyone","Garbage collection tomorrow morning. Please bring your trash down tonight 🗑️"],["💸","Rent reminder","Paolo","Hi Paolo 🙂 friendly reminder: your rent was due on Oct 15."],["⚡","Brownout notice","Everyone","Scheduled brownout on Saturday 9 AM–3 PM ⚡ Please charge your devices."]].map(a=>`<button class="tile" onclick="composer('${a[0]}','${a[1]}','${a[2]}','${a[3].replace(/'/g,"\\'")}')"><span class="em">${a[0]}</span>${a[1]}</button>`).join("")}
+ </div>
+ <p class="muted small" style="margin-top:12px">Templates are editable in Settings › Quick Alerts.</p>`},
+
+"m-more":{role:"manager",title:"More",tab:"more",
+ purpose:"A simple menu for the less-frequent screens, keeping the bottom bar to 5 big buttons.",
+ flow:["Announcements, Maintenance, House rules, Settings, Pair a tenant, Backup.","Each item is a large, single-tap row."],
+ render:()=>appbar("More")+`<div class="card list">
+ ${[["📣","Announcements","m-ann"],["🔧","Maintenance requests","m-maint"],["📜","House rules","m-rules"],["📷","Pair a tenant (QR)","m-pair"],["⚙️","Settings","m-settings"]].map(i=>`<div class="item" style="cursor:pointer;min-height:56px" onclick="go('${i[2]}')"><span style="font-size:24px">${i[0]}</span><div class="grow h">${i[1]}</div><span class="muted">›</span></div>`).join("")}
+ </div><div class="banner info">🏠 BoardMate v1.0 · Host mode · Asia/Manila</div>`},
+
+"m-ann":{role:"manager",title:"Announcements",tab:"more",empty:"No announcements yet. Tap ＋ to post one.",
+ purpose:"Post news to all tenants (house meetings, rules reminders, schedules). One announcement can be pinned to the top of every tenant's home screen.",
+ flow:["Tap ＋ → write a title and message → Post. Tenants get it on their next sync (instantly if their app is open).","Tap 📌 to pin/unpin, ✏️ to edit, 🗑️ to delete."],
+ render:()=>appbar("Announcements","m-more",`<button class="iconbtn" onclick="newAnn()">＋</button>`)+`
+ <div class="card" style="border-left:6px solid var(--primary)"><div class="row between"><span class="chip neutral">📌 Pinned</span><span class="muted small">Oct 15</span></div><div class="h" style="margin-top:8px">House meeting this Sunday 🍲</div><p class="small" style="margin:6px 0">Sunday 7 PM in the sala. We'll talk about the cleaning schedule. Merienda is on me!</p><div class="btns"><button class="btn sm ghost">✏️ Edit</button><button class="btn sm ghost">📌 Unpin</button><button class="btn sm ghost">🗑️</button></div></div>
+ <div class="card"><div class="row between"><div class="h">Water interruption Thursday 💧</div><span class="muted small">Oct 10</span></div><p class="small" style="margin:6px 0">Maynilad/water district notice: 8 AM–5 PM. Please store water the night before.</p></div>
+ <div class="card"><div class="row between"><div class="h">Welcome Angel! 🎉</div><span class="muted small">Sep 28</span></div><p class="small" style="margin:6px 0">Please welcome our new tenant in Room C.</p></div>`},
+
+"m-maint":{role:"manager",title:"Maintenance requests",tab:"more",empty:"No repair requests. Everything is working 🎉",
+ purpose:"Track problems tenants report (leaks, broken fans, lights) from Open → In progress → Done, with a short note the tenant can see.",
+ flow:["Filter by status.","Tap Start → status becomes In progress; tenant sees it.","Tap Done → add an optional note (\"Replaced faucet\") → tenant is notified."],
+ render:()=>appbar("Maintenance","m-more")+`
+ <div class="pills" style="margin-bottom:12px"><button class="pill on">Open (2)</button><button class="pill">In progress (1)</button><button class="pill">Done</button></div>
+ <div class="card"><div class="row between"><span class="chip overdue">Open</span><span class="muted small">Today 3:20 PM</span></div><div class="h" style="margin-top:8px">🚰 Leaking faucet in CR</div><div class="muted small">Room A · reported by Joy</div><p class="small">Water keeps dripping even when closed tight.</p><div class="thumbs"><div class="thumb" style="width:64px;height:64px;font-size:24px" onclick="viewPhoto('🚰')">🚰</div><div class="thumb" style="width:64px;height:64px;font-size:24px" onclick="viewPhoto('💧')">💧</div></div><div class="btns"><button class="btn sm" onclick="toast('Status → In progress. Joy can see this.')">▶ Start</button><button class="btn sm ghost" onclick="toast('✓ Marked done')">✓ Done</button></div></div>
+ <div class="card"><div class="row between"><span class="chip overdue">Open</span><span class="muted small">Yesterday</span></div><div class="h" style="margin-top:8px">🌀 Electric fan not turning</div><div class="muted small">Room C · reported by Angel</div><div class="btns"><button class="btn sm">▶ Start</button><button class="btn sm ghost">✓ Done</button></div></div>
+ <div class="card"><div class="row between"><span class="chip pending">In progress</span><span class="muted small">Oct 17</span></div><div class="h" style="margin-top:8px">💡 Hallway light flickering</div><div class="muted small">Common area · reported by Mark</div><div class="small" style="margin-top:6px">📝 Manager: "Bought new bulb, will install Saturday."</div></div>`},
+
+"m-rules":{role:"manager",title:"House rules",tab:"more",
+ purpose:"One simple page of house rules that every tenant can read. Quiet hours set here are also used by the 🔊 noise button.",
+ flow:["Edit → change text → Save. Tenants see the update on next sync."],
+ render:()=>appbar("House rules","m-more",`<button class="iconbtn" onclick="toast('✏️ Edit rules')">✏️</button>`)+rulesCard()},
+
+"m-pair":{role:"manager",title:"Pair a tenant (QR)",tab:"more",nav:false,
+ purpose:"Connect a tenant's phone to the house once. The QR holds the host address, port, house ID and a one-time code that expires in 10 minutes.",
+ flow:["Pick the tenant → QR appears.","Tenant opens BoardMate → \"Scan host QR\" → paired. The code can't be used again.","If the tenant's phone can't connect, the tips explain AP/client isolation and DHCP reservation."],
+ render:()=>{const t=tenants.find(x=>x.id===(S.param||6));return appbar("Pair a tenant","m-more")+`
+ <div class="card" style="text-align:center"><div class="field" style="text-align:left"><label>Tenant</label><select>${tenants.map(x=>`<option ${x.id===t.id?"selected":""}>${x.name}</option>`).join("")}</select></div>
+ ${qrGrid(t.id*77)}
+ <div class="h">Scan with ${t.first}'s phone</div><div class="muted small">192.168.1.50 · port 8080 · one-time code</div><div class="chip pending" style="margin-top:8px">⏱ Expires in 9:41</div>
+ <div class="btns" style="justify-content:center"><button class="btn sm ghost" onclick="toast('🔄 New code made; old one no longer works')">🔄 New code</button></div></div>
+ <div class="banner info">📌 <div><b>Tip:</b> In your router settings, add a <b>DHCP reservation</b> for this phone so its address (192.168.1.50) never changes.</div></div>
+ <div class="banner warn">🔌 <div>Tenant can't connect? Make sure they're on the <b>main WiFi</b> (not the guest network) and <b>AP/client isolation is OFF</b> on your router.</div></div>`}},
+
+"m-settings":{role:"manager",title:"Settings",tab:"more",
+ purpose:"House setup: WiFi for presence, alert rules, pairing and devices, security, billing defaults, host health, and backup.",
+ flow:["House WiFi: tap \"Use current WiFi\" on each band (2.4 GHz / 5 GHz) to add its BSSID. Presence counts only if SSID and a saved BSSID both match.","Presence rules: 1 arrival notification per tenant per day, quiet hours, 10-minute debounce.","Backup: Export creates one file → share it to Google Drive / Messenger / a PC. Import restores it (asks for PIN, makes a safety copy first).","Security: change PIN, fingerprint, \"Re-pair everyone\" (use if this phone was lost).","Host: battery optimization and start-on-boot checks keep the server alive."],
+ render:()=>appbar("Settings","m-more")+`
+ <div class="sec">📶 House WiFi (presence)</div>
+ <div class="card"><div class="kv"><span class="muted">SSID</span><b>SantosHouse</b></div>
+ <div class="list small"><div class="item"><span>📡</span><div class="grow">a4:2b:b0:11:9c:01 <span class="muted">· 2.4 GHz</span></div><button class="btn sm ghost">✕</button></div><div class="item"><span>📡</span><div class="grow">a4:2b:b0:11:9c:05 <span class="muted">· 5 GHz</span></div><button class="btn sm ghost">✕</button></div></div>
+ <button class="btn secondary" onclick="toast('📶 Added current WiFi: SantosHouse · a4:2b:b0:11:9c:01 (already saved)')">📶 Use current WiFi</button></div>
+ <div class="sec">🔔 Presence & alerts</div>
+ <div class="card">
+  <div class="row between" style="min-height:48px"><span>One "arrived" alert per tenant per day</span><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+  <div class="row between" style="min-height:48px"><span>Quiet hours <span class="muted small">10:00 PM – 6:00 AM</span></span><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+  <div class="kv"><span class="muted">Mark "Away" after</span><b>10 min off WiFi</b></div>
+  <div class="kv"><span class="muted">Quick Alert templates</span><a class="link">Edit ›</a></div></div>
+ <div class="sec">💰 Billing</div>
+ <div class="card"><div class="row between" style="min-height:48px"><span>Utilities included in rent<br><span class="muted small">Turn off to start billing electricity, water, WiFi</span></span><button class="toggle on" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'Utilities: included':'Utility bill screen enabled')"></button></div><div class="kv"><span class="muted">Grace period</span><b>3 days</b></div></div>
+ <div class="sec">📱 Tenant devices</div>
+ <div class="card"><div class="kv"><span>5 paired · 1 not paired</span><a class="link" onclick="go('m-pair')">Pair ›</a></div></div>
+ <div class="sec">🔒 Security</div>
+ <div class="card"><div class="kv"><span>Change PIN</span><a class="link">›</a></div><div class="row between" style="min-height:48px"><span>Unlock with fingerprint</span><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+ <button class="btn ghost" style="color:var(--overdue)" onclick="toast('⚠️ This revokes ALL tenant phones. They must scan a new QR.')">🔁 Re-pair everyone (lost phone)</button></div>
+ <div class="sec">💾 Backup</div>
+ <div class="card"><div class="kv"><span class="muted">Last backup</span><b style="color:var(--pending)">9 days ago</b></div><div class="kv"><span class="muted">Reminder</span><b>Every 7 days</b></div><div class="kv"><span class="muted">Photos stored</span><b>38 photos · 7.4 MB</b></div><div class="kv"><span class="muted">Delete repair photos</span><b>6 months after done</b></div>
+ <button class="btn" onclick="toast('💾 boardmate-2026-10-20.zip (database + photos) created → choose where to save/share')">💾 Export backup</button><button class="btn ghost" onclick="toast('🔐 Enter PIN to import. A safety copy is made first.')">📥 Import backup</button></div>
+ <div class="sec">🖥️ Host</div>
+ <div class="card"><div class="kv"><span class="muted">Server</span><b>Running · 192.168.1.50:8080</b></div><div class="kv"><span class="muted">Start on phone boot</span><b style="color:var(--paid)">On ✓</b></div><div class="kv"><span class="muted">Battery optimization</span><b style="color:var(--paid)">Excluded ✓</b></div><div class="kv"><span class="muted">Language</span><b>English</b></div></div>`},
+
+/* ===== TENANT ===== */
+"t-consent":{role:"tenant",title:"Presence consent",nav:false,
+ purpose:"Shown once after pairing (and any time from Me › Privacy). Explains exactly what the manager can see, as required by the Data Privacy Act (RA 10173). Presence is optional.",
+ flow:["Allow → Permission explainer screen.","Not now → presence stays off; the tenant can use the manual \"I'm home\" button.","The tenant can change this anytime in Me › Presence sharing. Stopping deletes nothing else."],
+ render:()=>`<div class="hero"><div class="em">🏠💚</div><h2 style="margin:6px 0">Share when you're home?</h2><div class="muted">This helps Aling Nena know who's inside, for example at gate-lock time or in an emergency.</div></div>
+ <div class="card"><div class="h" style="color:var(--paid)">✓ The manager CAN see</div><ul class="small" style="line-height:1.7"><li><b>Home</b> or <b>Away</b> — based only on whether you're connected to the house WiFi</li><li>The <b>time</b> you were last seen at home</li></ul>
+ <div class="h" style="color:var(--overdue);margin-top:6px">✕ The manager can NEVER see</div><ul class="small" style="line-height:1.7"><li>Your GPS location or where you go</li><li>Your messages, apps, photos or browsing</li><li>Anything while you're away from the house</li></ul>
+ <div class="small muted">History is kept 30 days and deleted when you move out. You can turn this off anytime.</div></div>
+ <button class="btn" onclick="go('t-perm')">Allow presence sharing</button><button class="btn ghost" onclick="toast('OK! Use the ✋ I\\'m home button when you arrive.');setTimeout(()=>go('t-home'),600)">Not now — I'll check in manually</button>`},
+
+"t-perm":{role:"tenant",title:"Permission explainer",nav:false,
+ purpose:"Android only lets apps read the WiFi name if Location permission is given and Location is turned on. This screen explains why, before Android's own pop-ups appear, and checks each item.",
+ flow:["Each row has a Fix button that opens the right Android setting.","\"Allow all the time\" is needed so presence works when the app is closed.","Battery: shows phone-brand steps (Xiaomi, Oppo, Vivo, Realme, Samsung) so Android doesn't stop the app.","Done → Home. Missing items show a gentle warning on Me › Connection."],
+ render:()=>`<div class="hero"><div class="em">📍❓</div><h2 style="margin:6px 0">Why does it ask for Location?</h2><div class="muted">Android treats the WiFi name as location info. BoardMate only checks <b>which WiFi</b> you're on — never your GPS position.</div></div>
+ <div class="card list">
+ <div class="item"><span style="font-size:24px">📍</span><div class="grow"><div class="h">Location permission</div><div class="muted small">Choose "Allow all the time"</div></div><span class="chip paid">✓ Done</span></div>
+ <div class="item"><span style="font-size:24px">🛰️</span><div class="grow"><div class="h">Location is turned on</div><div class="muted small">Quick settings → Location</div></div><span class="chip paid">✓ On</span></div>
+ <div class="item"><span style="font-size:24px">🔋</span><div class="grow"><div class="h">Battery: don't restrict</div><div class="muted small">Keeps presence working when closed</div></div><button class="btn sm" onclick="toast('Opening battery settings… (Xiaomi steps shown)')">Fix</button></div>
+ <div class="item"><span style="font-size:24px">🔔</span><div class="grow"><div class="h">Notifications</div><div class="muted small">For alerts and bill reminders</div></div><span class="chip paid">✓ On</span></div>
+ </div>
+ <div class="banner info">ℹ️ <div>You'll see a small silent notification <b>"🏠 BoardMate · Home"</b>. Android requires it for apps that run in the background. It sleeps when you're away from the house WiFi.</div></div>
+ <button class="btn" onclick="go('t-home')">Done</button>`},
+
+"t-home":{role:"tenant",title:"Home",tab:"home",empty:"Nothing here yet — your bills will appear after the manager sets up your room.",
+ purpose:"The tenant's main screen: how much they owe and when, Home/Away status, the pinned announcement, and the big emoji Quick Alert buttons.",
+ flow:["Balance card → My bills. \"I paid\" → report a GCash/Maya/bank/cash payment.","Quick Alerts: 🔊 opens the room picker; 🚨 opens the Emergency screen; others send immediately with an optional note.","Status pill → Me › Connection.","When away from the house WiFi, a banner explains the app is showing saved info and actions will be sent later."],
+ render:()=>netBanner()+`
+ <div class="appbar"><div class="grow"><div class="muted small">Good evening 🌙</div><h2>Hi, ${me.first}!</h2></div><button class="chip ${S.net==="online"?"homec":"neutral"}" style="border:0;min-height:40px;cursor:pointer" onclick="go('t-me')">${S.net==="online"?"🏠 Home":S.net==="away"?"🚶 Away":"🏠 Home · host away"}</button></div>
+ <div class="card tap" onclick="go('t-bills')" style="background:linear-gradient(135deg,#4F6BED,#7B8CFF);color:#fff"><div class="small" style="opacity:.85">Due Oct 12 · Room A share</div><div class="big">${peso(250000)}</div><div class="chip" style="background:rgba(255,255,255,.22);color:#fff;margin-top:6px">⏳ Payment sent · waiting for manager's check</div></div>
+ <div class="sec">Quick alerts</div>
+ <div class="tiles">
+  <button class="tile" onclick="noiseSheet()"><span class="em">🔊</span>Too noisy</button>
+  <button class="tile" onclick="simpleAlert('⚡','Brownout / no water')"><span class="em">⚡💧</span>Brownout / No water</button>
+  <button class="tile" onclick="simpleAlert('🚪','Gate/door left open')"><span class="em">🚪</span>Gate left open</button>
+  <button class="tile" onclick="simpleAlert('🧹','Needs cleaning')"><span class="em">🧹</span>Needs cleaning</button>
+  <button class="tile" onclick="simpleAlert('🔑','I\\'m locked out')"><span class="em">🔑</span>Locked out</button>
+  <button class="tile emer" onclick="go('t-emergency')"><span class="em">🚨</span>Emergency</button>
+ </div>
+ <div class="sec">📌 Pinned announcement</div>
+ <div class="card tap" onclick="go('t-ann')"><div class="h">House meeting this Sunday 🍲</div><div class="muted small">Sunday 7 PM in the sala. Merienda is on Aling Nena!</div></div>`},
+
+"t-bills":{role:"tenant",title:"My bills & balance",tab:"bills",empty:"No bills yet. Your first bill appears on your due date.",
+ purpose:"Shows the current bill breakdown, what's been paid, the balance, and past receipts the tenant can save or share.",
+ flow:["Current cycle card: rent share + utilities (\"Included\") − payments = balance.","I paid → payment report form (goes to Pending until the manager verifies).","Tap 🧾 on a past payment → receipt image → Share/Save."],
+ render:()=>netBanner()+appbar("My bills")+`
+ <div class="card"><div class="row between"><div class="h">Oct 12 – Nov 11</div><span class="chip pending">⏳ Pending</span></div>
+ <div class="kv"><span>Rent share · Room A (½ of ${peso(500000)})</span><b>${peso(250000)}</b></div>
+ <div class="kv"><span>⚡ Electricity · 💧 Water · 📶 WiFi</span><b style="color:var(--paid)">Included ✓</b></div>
+ <div class="kv"><span>Payments verified</span><b>− ${peso(0)}</b></div>
+ <div class="kv total"><span>Balance</span><span>${peso(250000)}</span></div>
+ <div class="banner warn" style="margin-top:10px">⏳ <div>You reported <b>GCash ${peso(250000)}</b> (ref 1009 2345 6789). Waiting for Aling Nena to check.</div></div>
+ <button class="btn" onclick="go('t-pay')">💸 I paid</button></div>
+ <div class="sec">History</div>
+ <div class="card list">
+  <div class="item"><span style="font-size:22px">📱</span><div class="grow"><div class="h">Sep 12 · ${peso(250000)}</div><div class="muted small">GCash · Ref 1008 7721 0042</div></div><span class="chip paid">✓ Paid</span><button class="btn sm ghost" onclick="showReceipt(2)">🧾</button></div>
+  <div class="item"><span style="font-size:22px">💵</span><div class="grow"><div class="h">Aug 12 · ${peso(250000)}</div><div class="muted small">Cash</div></div><span class="chip paid">✓ Paid</span><button class="btn sm ghost" onclick="showReceipt(2)">🧾</button></div>
+ </div>
+ <div class="card"><div class="kv"><span class="muted">Deposit held</span><b>${peso(250000)}</b></div><div class="kv"><span class="muted">Advance (used for 1st month)</span><b>${peso(250000)}</b></div></div>`},
+
+"t-pay":{role:"tenant",title:"Report a payment",tab:"bills",nav:false,
+ purpose:"The tenant tells the manager they paid, with proof. It stays Pending until the manager checks their GCash/bank and verifies it, so nobody can mark themselves paid.",
+ flow:["Amount defaults to the balance. Pick method.","GCash / Maya / Bank: reference number AND receipt screenshot are required.","Cash: a photo (the cash or a signed note) is optional.","Submit → Pending. If offline, it's saved and sent automatically later (sent once, never duplicated)."],
+ render:()=>appbar("I paid","t-bills")+`
+ <div class="card"><div class="field"><label>Amount (₱)</label><input value="2,500.00" inputmode="decimal"></div>
+ <div class="field"><label>How did you pay?</label><div class="pills">${["Cash","GCash","Maya","Bank"].map(m=>`<button class="pill ${S.method===m?"on":""}" onclick="S.method='${m}';render()">${{Cash:"💵",GCash:"📱",Maya:"💚",Bank:"🏦"}[m]} ${m}</button>`).join("")}</div></div>
+ ${S.method!=="Cash"?`<div class="field" id="refField"><label>Reference number *</label><input id="ref" placeholder="From your ${S.method} receipt"><div class="err">Please enter the reference number so the manager can find it.</div></div>${photoField('tpay','Receipt screenshot',1,true,'🧾','Please attach your '+S.method+' receipt screenshot.')}`:`<div class="banner info">💵 Hand the cash to the manager. They'll confirm it here.</div>${photoField('tpay','Photo of the cash or signed note',1,false,'💵')}`}
+ <div class="field"><label>Date</label><input value="Oct 20, 2026"></div>
+ <button class="btn" onclick="tenantPay()">Send to manager</button></div>`},
+
+"t-room":{role:"tenant",title:"My room",tab:"room",
+ purpose:"The tenant's room and bed, roommate (first name only for privacy), move-in details, and the house rules.",
+ flow:["Roommate shows first name only; contact info is not shared.","House rules are always readable, even offline."],
+ render:()=>netBanner()+appbar("My room")+`
+ <div class="card" style="text-align:center"><div style="font-size:52px">🌻</div><div class="h" style="font-size:20px">Room A · Upper bed</div><div class="muted small">Moved in Mar 12, 2026 · Due every 12th</div></div>
+ <div class="sec">Roommate</div>
+ <div class="card"><div class="row">${avatar(tenants[0],false)}<div class="grow"><div class="h">Maria</div><div class="muted small">Lower bed</div></div><span style="font-size:24px">👋</span></div></div>
+ <div class="sec">House rules</div>`+rulesCard()},
+
+"t-report":{role:"tenant",title:"Report a problem",tab:"report",empty:"You haven't reported any problems.",
+ purpose:"Report repairs (leaks, broken fan, lights). The tenant can follow the status. For urgent issues use Quick Alerts on Home.",
+ flow:["Pick category → short title → details → optional photos (up to 3) → Send.","Photos are shrunk before sending; if offline they upload later.","My requests shows status: Open → In progress → Done, plus the manager's note."],
+ render:()=>netBanner()+appbar("Report a problem")+`
+ <div class="card"><div class="field"><label>What kind of problem?</label><div class="pills">${["🚰 Plumbing","💡 Electrical","🛏️ Furniture","🔒 Door/lock","❓ Other"].map((c,i)=>`<button class="pill ${i===0?"on":""}" onclick="this.parentNode.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));this.classList.add('on')">${c}</button>`).join("")}</div></div>
+ <div class="field" id="titleField"><label>Short title *</label><input id="ptitle" placeholder="e.g. Leaking faucet in CR"><div class="err">Please add a short title.</div></div>
+ <div class="field"><label>Details (optional)</label><textarea placeholder="Where is it? Since when?"></textarea></div>
+ ${photoField('prob','Photos',3,false,'🚰')}
+ <button class="btn" onclick="sendProblem()">Send to manager</button></div>
+ <div class="sec">My requests</div>
+ <div class="card"><div class="row between"><div class="h">🚰 Leaking faucet in CR</div><span class="chip overdue">Open</span></div><div class="muted small">Sent today 3:20 PM · 📷 2 photos</div></div>
+ <div class="card"><div class="row between"><div class="h">💡 Room light flickering</div><span class="chip paid">Done</span></div><div class="muted small">Sep 30 · 📝 "Replaced the bulb"</div></div>`},
+
+"t-ann":{role:"tenant",title:"Announcements",tab:"home",empty:"No announcements yet.",
+ purpose:"Read-only list of the manager's announcements, newest first, pinned on top. Available offline from the last sync.",
+ flow:["New announcements show a dot until opened."],
+ render:()=>netBanner()+appbar("Announcements","t-home")+`
+ <div class="card" style="border-left:6px solid var(--primary)"><span class="chip neutral">📌 Pinned</span><div class="h" style="margin-top:8px">House meeting this Sunday 🍲</div><p class="small">Sunday 7 PM in the sala. We'll talk about the cleaning schedule. Merienda is on me!</p><div class="muted small">Oct 15 · Aling Nena</div></div>
+ <div class="card"><div class="h">Water interruption Thursday 💧</div><p class="small">8 AM–5 PM. Please store water the night before.</p><div class="muted small">Oct 10</div></div>
+ <div class="card"><div class="h">Welcome Angel! 🎉</div><p class="small">Please welcome our new tenant in Room C.</p><div class="muted small">Sep 28</div></div>`},
+
+"t-me":{role:"tenant",title:"Me · Connection status",tab:"me",
+ purpose:"Shows whether the phone can reach the house host, whether presence is working, pending items waiting to sync, and privacy controls.",
+ flow:["Connection card: Connected / Away from house WiFi / Host away, with last sync time and items waiting to send.","Sync now retries immediately.","Presence sharing toggle (pause anytime) + manual ✋ I'm home / 🚶 I'm out buttons.","Permission checklist with Fix buttons. \"What the manager sees\" reopens the consent notice."],
+ render:()=>{const st={online:["🟢","Connected to house","Last sync 7:42 PM · 0 waiting","paid"],away:["⚪","Away from house WiFi","Showing saved info from 7:42 PM · 1 waiting to send","neutral"],hostaway:["🟠","Host phone is away","You're home, but the manager's phone isn't reachable · 1 waiting","pending"]}[S.net];return appbar("Me")+`
+ <div class="card"><div class="row"><div style="font-size:28px">${st[0]}</div><div class="grow"><div class="h">${st[1]}</div><div class="muted small">${st[2]}</div></div></div><button class="btn secondary" onclick="toast(S.net==='online'?'✓ Up to date':'Still can\\'t reach the host — will retry automatically')">🔄 Sync now</button></div>
+ <div class="sec">Presence</div>
+ <div class="card"><div class="row between" style="min-height:48px"><span>Share Home/Away with manager</span><button class="toggle on" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'Presence sharing on':'Paused — use manual check-in')"></button></div>
+ <div class="kv"><span class="muted">House WiFi</span><b>${S.net==="away"?"Not connected":"SantosHouse ✓"}</b></div>
+ <div class="btns"><button class="btn sm secondary" onclick="if(!queued())toast('✋ Checked in as Home')">✋ I'm home</button><button class="btn sm ghost" onclick="if(!queued())toast('🚶 Marked as out')">🚶 I'm out</button></div></div>
+ <div class="sec">Checklist</div>
+ <div class="card list"><div class="item"><span>📍</span><div class="grow">Location: Allow all the time</div><span class="chip paid">✓</span></div><div class="item"><span>🛰️</span><div class="grow">Location turned on</div><span class="chip paid">✓</span></div><div class="item"><span>🔋</span><div class="grow">Battery not restricted</div><button class="btn sm" onclick="go('t-perm')">Fix</button></div></div>
+ <div class="sec">Privacy & app</div>
+ <div class="card list"><div class="item" style="cursor:pointer" onclick="go('t-consent')"><span>🔒</span><div class="grow">What the manager can see</div><span>›</span></div><div class="item"><span>🌐</span><div class="grow">Language</div><span class="muted">English</span></div><div class="item"><span>🏠</span><div class="grow">Host</div><span class="muted small">192.168.1.50:8080</span></div></div>`}},
+
+"t-emergency":{role:"tenant",title:"Emergency",tab:"home",nav:false,
+ purpose:"For real emergencies. Calling 911 is always first and biggest, because the app only works on the house WiFi. The manager alert is a bonus, needs a 2-second hold (no accidental taps), and ignores quiet hours and mute.",
+ flow:["Call 911 / BFP / Barangay opens the dialer directly.","Hold the red button 2 seconds → pick type (Fire / Medical / Intruder) → manager's phone rings loudly."],
+ render:()=>appbar("Emergency","t-home")+`
+ <button class="btn danger" style="min-height:72px;font-size:22px" onclick="toast('📞 Calling 911…')">📞 Call 911</button>
+ <div class="btns"><button class="btn sm ghost" style="flex:1" onclick="toast('📞 Calling BFP…')">🚒 BFP (fire)</button><button class="btn sm ghost" style="flex:1" onclick="toast('📞 Calling Barangay…')">🏛️ Barangay</button></div>
+ <div class="card" style="margin-top:16px;text-align:center"><div class="h">Alert the manager</div><div class="muted small" style="margin-bottom:8px">Press and hold for 2 seconds</div>
+ <button class="btn danger hold" id="holdBtn" style="min-height:90px;font-size:20px"><span class="fill" id="holdFill"></span>🚨 Hold to alert</button></div>
+ <div class="banner info">ℹ️ This works only on the house WiFi while the manager's phone is on. Always call 911 first.</div>`},
+};
+
+/* ---------------- Navigation bars ---------------- */
+const navs = {
+ manager:[["home","🏠","Home","m-dash"],["rooms","🛏️","Rooms","m-rooms"],["bill","💰","Billing","m-billing"],["alerts","🔔","Alerts","m-alerts",1],["more","☰","More","m-more"]],
+ tenant:[["home","🏠","Home","t-home"],["bills","🧾","Bills","t-bills"],["room","🛏️","Room","t-room"],["report","🔧","Report","t-report"],["me","👤","Me","t-me"]],
+};
+
+/* ---------------- Shared bits ---------------- */
+function ord(n){return n%10===1&&n!==11?"st":n%10===2&&n!==12?"nd":n%10===3&&n!==13?"rd":"th";}
+function rulesCard(){return `<div class="card small" style="line-height:1.7">🌙 <b>Quiet hours:</b> 10:00 PM – 6:00 AM<br>🚪 <b>Gate locks:</b> 11:00 PM (tell the manager if you'll be late)<br>👥 <b>Visitors:</b> until 9:00 PM, sala only<br>🧹 <b>Cleaning:</b> clean up after cooking; CR every Saturday by rotation<br>🔌 <b>Appliances:</b> no rice cookers or heaters inside rooms<br>🚭 <b>No smoking</b> inside the house<br>💸 <b>Rent:</b> due on your move-in day each month, 3-day grace period</div>`;}
+function netBanner(){if(S.role!=="tenant"||S.net==="online")return "";return S.net==="away"?`<div class="banner info">🚶 <div><b>Away from house WiFi</b> — showing saved info from 7:42 PM. Anything you send will go out when you're back home.</div></div>`:`<div class="banner warn">🟠 <div><b>Manager's phone is away</b> — your messages are saved and will be delivered when it's back.</div></div>`;}
+function stateView(sc){
+ if(S.state==="loading")return `<div class="appbar"><h2>${sc.title}</h2></div>`+[120,80,80,160].map(h=>`<div class="skel" style="height:${h}px;margin-bottom:12px"></div>`).join("");
+ if(S.state==="empty")return `<div class="appbar"><h2>${sc.title}</h2></div><div class="hero" style="padding-top:80px"><div class="em">🌱</div><div class="h" style="margin-top:8px">Nothing here yet</div><p class="muted">${sc.empty||"Nothing to show yet."}</p></div>`;
+ if(S.state==="error")return `<div class="appbar"><h2>${sc.title}</h2></div><div class="hero" style="padding-top:80px"><div class="em">😕</div><div class="h" style="margin-top:8px">Couldn't load this</div><p class="muted">${S.role==="tenant"?"Can't reach the house host. Check that you're on the house WiFi.":"The database couldn't be read. Try again, or restore a backup."}</p><button class="btn" onclick="document.getElementById('stateSel').value='normal';S.state='normal';render()">Try again</button></div>`;
+}
+
+/* ---------------- Photo picker (mockup) ---------------- */
+function photoField(key,label,max,required,icon,errText){const n=S.photos[key]||0;return `<div class="field" id="pf-${key}"><label>${label}${required?" *":" (optional)"}</label><div class="thumbs">${Array.from({length:n},(_,i)=>`<div class="thumb" onclick="viewPhoto('${icon}')">${icon}<button class="x" onclick="event.stopPropagation();S.photos['${key}']--;render()">✕</button></div>`).join("")}${n<max?`<div class="thumb add" onclick="addPhoto('${key}')"><span>📷</span>Add photo</div>`:""}</div><div class="muted small" style="margin:6px 4px 0">Camera or gallery · up to ${max} · auto-shrunk to ~200 KB</div><div class="err">${errText||"Please add a photo."}</div></div>`;}
+function addPhoto(key){openSheet(`<div class="h" style="font-size:18px">Add photo</div><button class="btn secondary" onclick="S.photos['${key}']=(S.photos['${key}']||0)+1;closeSheet();render()">📷 Take a photo</button><button class="btn ghost" onclick="S.photos['${key}']=(S.photos['${key}']||0)+1;closeSheet();render()">🖼️ Choose from gallery</button>`);}
+function viewPhoto(icon){openSheet(`<div style="height:300px;border-radius:18px;display:grid;place-items:center;font-size:90px;background:linear-gradient(135deg,#DDE4FF,#F3E8FF)">${icon}</div><p class="muted small" style="text-align:center">Full-size photo preview (pinch to zoom in the real app)</p><button class="btn ghost" onclick="closeSheet()">Close</button>`);}
+
+/* ---------------- Actions ---------------- */
+function pinKey(n){S.pin+=n;render();if(S.pin.length>=4){setTimeout(()=>{S.pin="";go("m-dash");},250);}}
+function editPrice(id){const r=rooms.find(x=>x.id===id);openSheet(`<div class="h" style="font-size:18px">${r.emoji} Edit ${r.name} price</div><div class="field" style="margin-top:12px"><label>Monthly room price (₱)</label><input value="${(r.price/100).toLocaleString('en-PH',{minimumFractionDigits:2})}"></div><div class="field"><label>Starts from</label><select><option>Next cycle of each tenant</option><option>November 2026</option></select></div><div class="banner info">New share per tenant will be shown before saving. Old bills don't change.</div><button class="btn" onclick="closeSheet();toast('✓ Price saved. Tenants see the new share from their next due date.')">Save</button>`);}
+function confirmRevoke(n){openSheet(`<div class="h" style="font-size:18px">⛔ Revoke ${n}'s phone?</div><p class="muted">Their app stops working with the house immediately. Use this when a phone is lost or the tenant moves out. You can pair a new phone anytime.</p><button class="btn danger" onclick="closeSheet();toast('⛔ Device revoked')">Revoke</button><button class="btn ghost" onclick="closeSheet()">Cancel</button>`);}
+function moveOut(id){const t=tenants.find(x=>x.id===id);openSheet(`<div class="h" style="font-size:18px">📦 Move out ${t.first}</div><div class="field" style="margin-top:12px"><label>Move-out date</label><input value="Oct 25, 2026"></div><div class="receipt"><div class="kv"><span>Last cycle (Oct 15–25, 11 of 31 days)</span><b>${peso(88710)}</b></div><div class="kv"><span>Unpaid before that</span><b>${peso(250000)}</b></div><div class="kv"><span>Deposit held</span><b>− ${peso(250000)}</b></div><div class="kv"><span>Deductions (broken fan)</span><b>${peso(0)}</b></div><div class="kv total"><span>${t.first} still owes</span><span>${peso(88710)}</span></div></div><div class="banner info" style="margin-top:10px">After move-out: device revoked, presence history deleted, ${rooms.find(r=>r.id===t.room).name} share suggested for the roommate.</div><button class="btn" onclick="closeSheet();toast('✓ Move-out scheduled')">Confirm move-out</button>`);}
+function savePayment(){const f=document.getElementById("refField");if(f&&!document.getElementById("ref").value.trim()){f.classList.add("invalid");return;}toast("✓ Payment saved & verified. Receipt ready to share.");setTimeout(()=>go("m-billing"),700);}
+function tenantPay(){const f=document.getElementById("refField");let bad=false;if(f&&!document.getElementById("ref").value.trim()){f.classList.add("invalid");bad=true;}if(S.method!=="Cash"&&!(S.photos.tpay>0)){document.getElementById("pf-tpay").classList.add("invalid");bad=true;}if(bad)return;S.photos.tpay=0;if(queued())return setTimeout(()=>go("t-bills"),900);toast("✓ Sent! Status: Pending until the manager checks.");setTimeout(()=>{go("t-bills");},800);}
+function sendProblem(){const f=document.getElementById("titleField");if(!document.getElementById("ptitle").value.trim()){f.classList.add("invalid");return;}if(queued())return;toast("✓ Sent to the manager. You'll see updates here.");}
+function showReceipt(id){const t=tenants.find(x=>x.id===id);openSheet(`<div class="receipt"><div style="text-align:center"><div style="font-size:34px">🏠</div><div class="h">Santos Boarding House</div><div class="muted small">Official payment receipt #2026-0142</div></div><div class="kv" style="margin-top:10px"><span>Tenant</span><b>${t.name}</b></div><div class="kv"><span>Room</span><b>Room ${t.room} · ${t.bed}</b></div><div class="kv"><span>For</span><b>Rent Sep ${t.due} – Oct ${t.due-1||30}</b></div><div class="kv"><span>Method</span><b>GCash · 1008 7721 0042</b></div><div class="kv"><span>Date</span><b>Sep ${t.due}, 2026</b></div><div class="kv total"><span>Amount paid</span><span>${peso(250000)}</span></div><div style="text-align:center;margin-top:8px" class="chip paid">✓ Verified by Aling Nena</div></div><button class="btn" onclick="closeSheet();toast('📤 Sharing receipt image…')">📤 Share image</button>`);}
+function newAnn(){openSheet(`<div class="h" style="font-size:18px">📣 New announcement</div><div class="field" style="margin-top:12px"><label>Title</label><input placeholder="e.g. Garbage collection schedule"></div><div class="field"><label>Message</label><textarea></textarea></div><div class="row between" style="min-height:48px"><span>📌 Pin to top</span><button class="toggle" onclick="this.classList.toggle('on')"></button></div><button class="btn" onclick="closeSheet();toast('📣 Posted to all 6 tenants')">Post</button>`);}
+function composer(em,label,target,msg){openSheet(`<div class="h" style="font-size:18px">${em} ${label}</div><div class="field" style="margin-top:12px"><label>Send to</label><select><option>${target}</option><option>Room A</option><option>Room B</option><option>Room C</option><option>Everyone</option></select></div><div class="field"><label>Message (editable)</label><textarea>${msg}</textarea></div><div class="row between" style="min-height:48px"><span>💬 Also send by SMS<br><span class="muted small">For tenants whose app is closed</span></span><button class="toggle" onclick="this.classList.toggle('on')"></button></div><button class="btn" onclick="closeSheet();toast('✓ Sent to ${target}. Delivered instantly to open apps, others on next sync.')">Send</button>`);}
+function noiseSheet(){openSheet(`<div class="h" style="font-size:18px">🔊 Where is the noise from?</div><p class="muted small">It's 7:42 PM — <b>outside quiet hours</b> (10 PM–6 AM). You can still send it.</p><div class="pills" id="roomPick">${["Room A","Room B","Room C","Not sure"].map(r=>`<button class="pill" onclick="pickRoom(this,'${r}')">${r}</button>`).join("")}</div><div id="ownWarn"></div><div class="field" style="margin-top:12px"><label>Short note (optional)</label><input maxlength="100" placeholder="e.g. loud music"></div><div class="banner info">🔒 The other room <b>won't know</b> it was you. The manager will see your name so the button isn't misused.</div><button class="btn" onclick="sendNoise()">Send to manager</button><p class="muted small" style="text-align:center">You can send one noise report every 30 minutes.</p>`);}
+function pickRoom(el,r){el.parentNode.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));el.classList.add('on');S.sel.room=r;document.getElementById('ownWarn').innerHTML=r==="Room A"?`<div class="banner warn" style="margin-top:10px">💭 This is your own room. Maria may guess it was you — talking to her first can help 🙂</div>`:"";}
+function sendNoise(){if(!S.sel.room){toast("Please pick a room first");return;}closeSheet();if(queued())return;toast("✓ Sent. Thank you! The manager will handle it kindly.");setTimeout(()=>notif("Manager's phone: 🔊 Noise report",`${S.sel.room} · from Joy`),1200);S.sel={};}
+function simpleAlert(em,label){openSheet(`<div class="h" style="font-size:18px">${em} ${label}</div><div class="field" style="margin-top:12px"><label>Short note (optional)</label><input maxlength="100" placeholder="Add details if helpful"></div><button class="btn" onclick="closeSheet();if(!queued()){toast('✓ Sent to the manager');setTimeout(()=>notif('Manager\\'s phone: ${em} ${label.replace(/'/g,"\\'")}','from Joy · Room A'),1200);}">Send to manager</button>`);}
+function bindHold(){const b=document.getElementById("holdBtn");if(!b)return;const fill=document.getElementById("holdFill");let start,raf;const step=()=>{const p=Math.min(1,(Date.now()-start)/2000);fill.style.width=(p*100)+"%";if(p<1)raf=requestAnimationFrame(step);else{cancel();if(queued())return;openSheet(`<div class="h" style="font-size:18px">🚨 What's happening?</div><div class="tiles" style="margin-top:12px">${[["🔥","Fire"],["🩺","Medical"],["🦹","Intruder"]].map(x=>`<button class="tile emer" onclick="closeSheet();toast('🚨 Manager alerted (loud alarm). Call 911 if you haven\\'t.');setTimeout(()=>notif('Manager\\'s phone: 🚨 EMERGENCY — ${x[1]}','Joy · Room A · ignores quiet hours'),1000)"><span class="em">${x[0]}</span>${x[1]}</button>`).join("")}</div>`);}};const cancel=()=>{cancelAnimationFrame(raf);fill.style.width="0";};const down=e=>{e.preventDefault();start=Date.now();raf=requestAnimationFrame(step);};b.addEventListener("mousedown",down);b.addEventListener("touchstart",down);["mouseup","mouseleave","touchend"].forEach(ev=>b.addEventListener(ev,cancel));}
+
+/* ---------------- Render ---------------- */
+function render(){
+ const sc=screens[S.screen];
+ // index
+ const groups={manager:"👩‍💼 Manager screens",tenant:"🧑 Tenant screens"};
+ document.getElementById("index").innerHTML=Object.keys(groups).map(g=>`<h3>${groups[g]}</h3>`+Object.entries(screens).filter(([,s])=>s.role===g).map(([id,s])=>`<a class="${id===S.screen?"on":""}" onclick="switchTo('${id}')">${s.title}</a>`).join("")).join("");
+ // content
+ const showState = S.state!=="normal" && sc.nav!==false && sc.empty!==undefined;
+ document.getElementById("content").innerHTML = showState ? stateView(sc) : sc.render();
+ // nav
+ const navEl=document.getElementById("nav");
+ if(sc.nav===false){navEl.style.display="none";}else{navEl.style.display="flex";navEl.innerHTML=navs[S.role].map(n=>`<button class="${sc.tab===n[0]?"on":""}" onclick="go('${n[3]}')"><span class="ic">${n[1]}</span>${n[2]}${n[4]?`<span class="badge">${n[4]}</span>`:""}</button>`).join("");}
+ // notes
+ document.getElementById("notes").innerHTML=`<span class="tag">${sc.role==="manager"?"Manager":"Tenant"}</span><h2>${sc.title}</h2><h4>Purpose</h4><p>${sc.purpose}</p><h4>Flow</h4><ul>${sc.flow.map(f=>`<li>${f}</li>`).join("")}</ul>${sc.empty?`<h4>Empty state text</h4><p class="muted">“${sc.empty}”</p><p class="small muted">Use the <b>Screen state</b> selector above to preview loading / empty / error.</p>`:""}${S.role==="tenant"?`<p class="small muted">Use the WiFi selector above to preview the Away and Host-away modes.</p>`:""}`;
+ // role seg
+ document.querySelectorAll("#roleSeg button").forEach(b=>b.classList.toggle("on",b.dataset.role===S.role));
+ document.getElementById("offlineWrap").style.display=S.role==="tenant"?"":"none";
+ bindHold();
+ fixBanners(document.getElementById("content"));
+}
+function switchTo(id){S.role=screens[id].role;go(id);}
+document.querySelectorAll("#roleSeg button").forEach(b=>b.onclick=()=>{S.role=b.dataset.role;go(S.role==="manager"?"m-lock":"t-consent");});
+document.getElementById("stateSel").onchange=e=>{S.state=e.target.value;render();};
+document.getElementById("offlineSel").onchange=e=>{S.net=e.target.value;render();};
+render();
+</script>
+</body>
+</html>

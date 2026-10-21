@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'NotoSansPeso';
+  src: url('/fonts/NotoSans-Peso.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  unicode-range: U+20B1;
+}
+
+:root {
+  --primary: #4F6BED;
+  --primary-soft: #E8ECFF;
+  --primary-dark: #3550C8;
+  --bg: #F5F7FF;
+  --card: #FFFFFF;
+  --text: #1F2544;
+  --muted: #6B7194;
+  --line: #E6E9F5;
+  --paid: #21A366;
+  --paid-soft: #E3F6EC;
+  --pending: #E39B12;
+  --pending-soft: #FFF3DA;
+  --overdue: #E5484D;
+  --overdue-soft: #FDE6E7;
+  --home: #21A366;
+  --away: #8A90AE;
+  --shadow: 0 4px 18px rgba(48, 62, 140, 0.08);
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', 'NotoSansPeso', system-ui, -apple-system, sans-serif;
+    background-color: #E9ECF8;
+    color: #1F2544;
+  }
+  
+  .font-mono {
+    font-family: 'JetBrains Mono', 'NotoSansPeso', ui-monospace, monospace;
+  }
+}
+
+/* Custom smooth scrollbar for light theme phone device frame */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(107, 113, 148, 0.2);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 113, 148, 0.4);
+}
+
